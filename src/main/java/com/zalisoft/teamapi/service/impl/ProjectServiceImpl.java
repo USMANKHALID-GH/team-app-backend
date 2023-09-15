@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.zalisoft.teamapi.enums.ProjectStatus.NOT_STARTED;
-import static com.zalisoft.teamapi.util.SecurityUtils.getCurrentUsername;
 
 @Service
 @Slf4j
@@ -92,7 +91,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> findUnfinishedProject() {
         final  LocalDate date = LocalDate.now();
-        return projectRepository.findUnfinishedProject(date,ProjectStatus.STARTED.name());
+        return projectRepository.findUnfinishedProject(date,ProjectStatus.FINISHED.name());
     }
 
     @Override

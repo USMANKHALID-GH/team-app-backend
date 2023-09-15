@@ -13,17 +13,17 @@ spring:
   main:
     allow-circular-references: true
 
-
-
   mail:
+    host: smtp.gmail.com
+    port: 587
     username: loftyusman@gmail.com
     password: kbpnueavvljmghkk
-    port: 587
-    smtp:
-      auth: true
-      starttls:
-        enable: true
-    host: smtp.gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 
 #jwt:

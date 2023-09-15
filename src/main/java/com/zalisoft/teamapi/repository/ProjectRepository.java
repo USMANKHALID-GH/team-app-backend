@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    @Query(value= "select p.*  from project as p where p.deadline>:date and p.status=:status " ,nativeQuery = true)
+    @Query(value= "select p.*  from project as p where p.deadline<:date and p.status<>:status " ,nativeQuery = true)
     List<Project>   findUnfinishedProject(LocalDate date, String status);
 
     @Query(value = "select p.* from project  p where p.status=?1",nativeQuery = true)

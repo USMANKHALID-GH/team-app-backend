@@ -29,10 +29,11 @@ public class EmailServiceImpl  implements EmailService {
 
     public void sendMessageToProjectManagersForUnfinishedProject() {
         List<Project> projectList=projectService.findUnfinishedProject();
+        log.info("inside email----");
         projectList.stream()
                 .forEach(m-> {
                     try {sendMail("WARNING PROJECT ID: " +
-                            ""+m.getId()+ "SON Tarih: " +
+                            ""+m.getId()+ "  SON Tarih Gecti: " +
                             ""+m.getDeadline() ,m.getProjectManager().getEmail());
                     } catch (MessagingException e) {
                         throw new RuntimeException(e);
@@ -44,11 +45,13 @@ public class EmailServiceImpl  implements EmailService {
 
 
     private void sendMail(String message ,String receiver) throws MessagingException, UnsupportedEncodingException {
+        log.info("mesage : {}   receiver : {}",message,receiver);
         MimeMessageHelper helper = new MimeMessageHelper(mailSender.createMimeMessage());
         helper.setText("WARNING");
+        helper.setSubject("WARNING");
         helper.setTo(receiver);
         helper.setFrom("loftyusman@gmail.com", "ZALISOFT");
         helper.setText(message, true);
-        mailSender.send(mailSender.createMimeMessage());
+        mailSender.send(helper.getMimeMessage());
     }
 }
