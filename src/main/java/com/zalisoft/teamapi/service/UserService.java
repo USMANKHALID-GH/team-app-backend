@@ -29,4 +29,6 @@ public interface UserService {
 
     void update(UserRegisterDto userRegisterDto);
 
+    User findCurrentUser();
+
 }
