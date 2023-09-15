@@ -1,12 +1,11 @@
 package com.zalisoft.teamapi.dto;
 
-
 import com.zalisoft.teamapi.enums.WorkType;
 import com.zalisoft.teamapi.model.Address;
 import lombok.Data;
 
 @Data
-public class UserRegisterDto extends BaseDto{
+public class UserDto extends BaseDto{
 
     private Long id;
     private String firstName;
@@ -18,7 +17,4 @@ public class UserRegisterDto extends BaseDto{
     private int experience;
     private String tc;
     private Address address;
-    private  String password;
-
-
 }

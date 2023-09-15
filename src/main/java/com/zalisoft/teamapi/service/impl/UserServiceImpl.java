@@ -155,10 +155,16 @@ UserServiceImpl implements UserService {
 
     @Override
     public void update(UserRegisterDto userRegisterDto) {
-        String  email=getCurrentUsername();
-        User user= findOneByEmail(email);
+        User user= findCurrentUser();
         update(user,userRegisterDto);
 
+    }
+
+    @Override
+    public User findCurrentUser() {
+        String current=getCurrentUsername();
+        log.info("user :{}",current);
+       return findOneByEmail(current);
     }
 
 
