@@ -9,6 +9,7 @@ import com.zalisoft.teamapi.model.User;
 import com.zalisoft.teamapi.repository.ProjectRepository;
 import com.zalisoft.teamapi.service.ProjectService;
 import com.zalisoft.teamapi.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.zalisoft.teamapi.enums.ProjectStatus.NOT_STARTED;
+import static com.zalisoft.teamapi.util.SecurityUtils.getCurrentUsername;
 
 @Service
+@Slf4j
 public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private UserService userService;
     @Autowired
     private ProjectRepository projectRepository;
+
+
 
     @Override
     public void save(ProjectDto projectDto, long id) {
@@ -56,9 +61,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project updateProjectStatus(long id, ProjectStatus projectStatus) {
-       Project project =findById(id);
+        User user=userService.findCurrentUser();
+        Project project= findById(id);
+        if(project.getProjectManager().getId().equals(user.getId())){
        project.setStatus(projectStatus);
-       return projectRepository.save(project);
+       return projectRepository.save(project);}
+        else
+            throw  new BusinessException(ResponseMessageEnum.BACK_PROJECT_MSG_005);
     }
 
     @Override
@@ -69,9 +78,15 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void extendProjectDeadline(LocalDate localDate, long id) {
+        User user=userService.findCurrentUser();
         Project project= findById(id);
-        project.setDeadline(localDate);
-        projectRepository.save(project);
+        if(project.getProjectManager().getId().equals(user.getId())){
+            project.setDeadline(localDate);
+            projectRepository.save(project);
+        }
+        else
+            throw  new BusinessException(ResponseMessageEnum.BACK_PROJECT_MSG_005);
+
     }
 
     @Override
@@ -81,8 +96,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findProjectByStatus(ProjectStatus status) {
-        return projectRepository.findByStatusIgnoreCase(status.name());
+    public List<Project> findProjectByStatus(String status) {
+        return projectRepository.findByStatusIgnoreCase(status);
     }
 
     @Override

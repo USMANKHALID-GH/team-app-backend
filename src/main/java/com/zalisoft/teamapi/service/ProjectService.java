@@ -21,7 +21,7 @@ public interface ProjectService {
 
     List<Project>   findUnfinishedProject();
 
-    List<Project> findProjectByStatus(ProjectStatus status);
+    List<Project> findProjectByStatus(String status);
 
     Page<Project>  search(Pageable pageable ,String search);
 

@@ -15,7 +15,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query(value= "select p.*  from project as p where p.deadline>:date and p.status=:status " ,nativeQuery = true)
     List<Project>   findUnfinishedProject(LocalDate date, String status);
 
-    @Query("from Project  p where p.status=?1")
+    @Query(value = "select p.* from project  p where p.status=?1",nativeQuery = true)
     List<Project>  findByStatusIgnoreCase(String status);
 
 
