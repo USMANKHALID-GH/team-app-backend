@@ -32,7 +32,7 @@ public class Team extends AbstractModel{
     @Column(name = "name", unique = true)
     private String name;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false )
     private User captain;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
