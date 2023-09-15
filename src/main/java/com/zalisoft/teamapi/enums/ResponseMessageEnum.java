@@ -32,6 +32,7 @@ public enum ResponseMessageEnum {
     BACK_PROJECT_MSG_002("back.project.msg.002", "Project son tarih girilmeli "),
     BACK_PROJECT_MSG_003("back.project.msg.003", "Project baslangic tarih girilmeli"),
     BACK_PROJECT_MSG_004("back.project.msg.004", "Project mevcut degildir"),
+    BACK_PROJECT_MSG_005("back.project.msg.004", "Sadece Project manager degisik yapabilir"),
     ;
     private final String message;
     private final String messageDetail;
