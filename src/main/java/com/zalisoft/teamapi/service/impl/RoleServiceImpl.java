@@ -79,19 +79,19 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.save(role);
     }
 
-    @Override
-    public Role addPrivilege(long id, long pId) {
-        Role role=findById(id);
-
-        Privilege privilege=privilegeService.findById(id);
-
-        role.setPrivileges(Set.of(privilege));
-
-
-        roleRepository.save(role);
-        return role;
-
-    }
+//    @Override
+//    public Role addPrivilege(long id, long pId) {
+//        Role role=findById(id);
+//
+//        Privilege privilege=privilegeService.findById(id);
+//
+//        role.setPrivileges(Set.of(privilege));
+//
+//
+//        roleRepository.save(role);
+//        return role;
+//
+//    }
 
 
     @Override

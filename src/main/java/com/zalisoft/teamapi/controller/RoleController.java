@@ -50,13 +50,11 @@ public class RoleController {
         return ResponseEntity.ok(mapper.toDto(service.findAll()));
     }
 
+
     @PutMapping("/role/{id}/privilege")
     public ResponseEntity<List<PrivilegeDto>>  findPrivilegeByRoleId(@PathVariable  long id){
         return ResponseEntity.ok(service.findPrivilegeByRoleId(id));
     }
 
-    @PutMapping("/role/{id}/privilege/{pId}")
-    public ResponseEntity<RoleDto>  addPrivilege(@PathVariable  long id,@PathVariable  long pId){
-        return ResponseEntity.ok(mapper.toDto(service.addPrivilege(id,pId)));
-    }
+
 }
