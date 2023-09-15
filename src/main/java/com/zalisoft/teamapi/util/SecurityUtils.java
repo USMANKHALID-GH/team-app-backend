@@ -21,6 +21,7 @@ public class SecurityUtils {
 
 
     public static String getCurrentUsername() {
+
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Optional<String> username = Optional.ofNullable(securityContext.getAuthentication())
                 .map(authentication -> {
@@ -34,6 +35,8 @@ public class SecurityUtils {
                 });
         return username.orElse(null);
     }
+
+
 
     public static boolean hasAuthority(String authority) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
