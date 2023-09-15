@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${HOST:0.0.0.0}:${PORT:5433}/ndb
+    username: ${HOST_NAME:usman}
+    password: ${PASSWORD:123456789}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  main:
+    allow-circular-references: true
+
+
+
+  mail:
+    username: loftyusman@gmail.com
+    password: kbpnueavvljmghkk
+    port: 587
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+    host: smtp.gmail.com
+
+
+#jwt:
+#  secret_key: "2948404D635166546A576E5A7234753778217A25432A462D4A614E645267556B";
+
+
+
+jwt:
+  secret_key: 2948404D635166546A576E5A7234753778217A25432A462D4A614E645267556B
+
+
+
+
