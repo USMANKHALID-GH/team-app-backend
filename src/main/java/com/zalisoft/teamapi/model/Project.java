@@ -20,6 +20,7 @@ import java.time.LocalDate;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SQLDelete(sql = "UPDATE project SET deleted=true WHERE id=?")
 public class Project extends AbstractModel{
+
     private static final long serialVersionUID = 1L;
 
     @Id

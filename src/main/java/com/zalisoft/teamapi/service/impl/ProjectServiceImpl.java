@@ -25,8 +25,10 @@ import static com.zalisoft.teamapi.enums.ProjectStatus.NOT_STARTED;
 @Service
 @Slf4j
 public class ProjectServiceImpl implements ProjectService {
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private ProjectRepository projectRepository;
 
@@ -57,6 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.save(project);
     }
+
 
     @Override
     public Project updateProjectStatus(long id, ProjectStatus projectStatus) {
@@ -98,6 +101,7 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> findProjectByStatus(String status) {
         return projectRepository.findByStatusIgnoreCase(status);
     }
+
 
     @Override
     public Page<Project> search(Pageable pageable, String search) {
