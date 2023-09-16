@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PrivilegeServiceImpl implements PrivilegeService {
+
     @Autowired
     private PrivilegeRepository privilegeRepository;
 
@@ -28,11 +29,13 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         privilegeRepository.save(privilege);
     }
 
+
     @Override
     public Privilege findById(long id) {
         return privilegeRepository.findById(id)
                 .orElseThrow(()-> new BusinessException(ResponseMessageEnum. BACK_PRIVILEGE_MSG_002));
     }
+
 
     @Override
     public Privilege update(long id, PrivilegeDto privilegeDto) {
@@ -47,11 +50,12 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         return  privilegeRepository.save(privilege);
     }
 
+
+
     @Override
     public void delete(long id) {
        privilegeRepository.deleteById(id);
     }
-
 
 
     @Override
@@ -59,6 +63,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         return privilegeRepository.findByNameIgnoreCase(name)
                 .orElseThrow(()-> new BusinessException(ResponseMessageEnum. BACK_PRIVILEGE_MSG_001));
     }
+
 
     public  boolean  existByName(String name){
        return privilegeRepository.existsByNameIgnoreCase(name);
