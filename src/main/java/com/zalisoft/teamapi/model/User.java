@@ -26,6 +26,7 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SQLDelete(sql = "UPDATE users SET deleted=true WHERE id=?")
 public class User  extends AbstractModel{
+
     private static final long serialVersionUID = 1L;
 
     @Id

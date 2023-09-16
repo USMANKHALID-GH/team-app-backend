@@ -104,6 +104,8 @@ UserServiceImpl implements UserService {
         user.setExperience(userRegisterDto.getExperience());
         user.setImage(userRegisterDto.getImage());
         user.setTitle(userRegisterDto.getTitle());
+        Role role=roleService.findByName(UserType.USER.name());
+        user.setRoles(Set.of(role));
         return userRepository.save(user);
 
 

@@ -5,6 +5,7 @@ import com.zalisoft.teamapi.exception.BusinessException;
 import com.zalisoft.teamapi.model.User;
 import com.zalisoft.teamapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Component
 public class UserAuthServiceImpl implements UserDetailsService {
 
+    @Autowired
     private final UserService userService;
 
     public UserAuthServiceImpl(UserService userService) {
