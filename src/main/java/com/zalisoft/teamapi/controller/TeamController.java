@@ -1,9 +1,61 @@
 package com.zalisoft.teamapi.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import com.zalisoft.teamapi.dto.RoleDto;
+import com.zalisoft.teamapi.dto.TeamDto;
+import com.zalisoft.teamapi.mapper.TeamMapper;
+import com.zalisoft.teamapi.model.Team;
+import com.zalisoft.teamapi.service.TeamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/public")
 public class TeamController {
+
+    @Autowired
+    private TeamService service;
+
+    @Autowired
+    private TeamMapper mapper;
+
+    @PostMapping("admin/team/captain/{id}")
+    public ResponseEntity<TeamDto> save(@RequestBody TeamDto teamDto, @PathVariable long id){
+        return ResponseEntity.ok(mapper.toDto(service.save(teamDto,id)));
+    }
+
+    @PutMapping("admin/team/{id}/member/{mId}")
+    public ResponseEntity<TeamDto> assignMember(@PathVariable long id,@PathVariable long mId){
+        return ResponseEntity.ok(mapper.toDto(service.assignMember(id,mId)));
+    }
+
+
+    @PutMapping("admin/team/{id}/remove-member/{mId}")
+    public ResponseEntity<TeamDto> removeTeam(@PathVariable long id,@PathVariable long mId){
+        return ResponseEntity.ok(mapper.toDto(service.removeTeam(id,mId)));
+    }
+
+    @GetMapping("/public/team/{id}")
+    public ResponseEntity<TeamDto>  findById(@PathVariable  long id){
+        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
+    }
+
+    @GetMapping("/role")
+    public ResponseEntity<Page<TeamDto>>  findAll(Pageable pageable
+    , @RequestParam(name = "search", required = false)String search){
+        return ResponseEntity.ok(new PageImpl<>(mapper.toDto(service.search(pageable,search))));
+
+
+    }
+
+
+
+
+
 }

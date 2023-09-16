@@ -2,6 +2,7 @@ package com.zalisoft.teamapi.service;
 
 import com.zalisoft.teamapi.dto.TeamDto;
 import com.zalisoft.teamapi.model.Team;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,9 +15,9 @@ public interface TeamService {
     Team findById(long id);
 
 
-    List<Team>  findAll();
+    List<Team> search(Pageable pageable, String search);
 
-    Team removeTeam(long id, long captainId);
+    Team removeTeam(long id, long mId);
 
 
 }

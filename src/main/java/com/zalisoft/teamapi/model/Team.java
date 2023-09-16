@@ -20,6 +20,7 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE team SET deleted=true WHERE id=?")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Team extends AbstractModel{
+
     private static final long serialVersionUID = 1L;
 
     @Id

@@ -9,6 +9,7 @@ import com.zalisoft.teamapi.service.TeamService;
 import com.zalisoft.teamapi.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,8 +62,8 @@ public class TeamServiceImpl implements TeamService {
 
 
     @Override
-    public List<Team> findAll() {
-        return teamRepository.findAll();
+    public List<Team> search(Pageable pageable, String search) {
+        return teamRepository.search(search,pageable).getContent();
     }
 
 
