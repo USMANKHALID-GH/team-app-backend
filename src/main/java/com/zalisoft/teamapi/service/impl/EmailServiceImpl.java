@@ -21,11 +21,13 @@ import java.util.List;
 @Service
 @Slf4j
 public class EmailServiceImpl  implements EmailService {
+
     @Autowired
     private ProjectService projectService;
 
     @Autowired
     private JavaMailSender mailSender;
+
 
     public void sendMessageToProjectManagersForUnfinishedProject() {
         List<Project> projectList=projectService.findUnfinishedProject();
@@ -42,6 +44,7 @@ public class EmailServiceImpl  implements EmailService {
                     }
                 });
     }
+
 
 
     private void sendMail(String message ,String receiver) throws MessagingException, UnsupportedEncodingException {
