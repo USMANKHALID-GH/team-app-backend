@@ -23,5 +23,7 @@ public interface RoleService {
 
     List<PrivilegeDto>  findPrivilegeByRoleId(long id);
 
+    Role findByName(String name);
+
 
 }

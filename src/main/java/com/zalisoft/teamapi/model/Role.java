@@ -33,4 +33,5 @@ public class Role extends AbstractModel {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(name = "role_privilege", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "privilege_id"))
     private Set<Privilege> privileges;
+
 }

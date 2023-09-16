@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.AbstractAuditable_;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -112,6 +113,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<PrivilegeDto> findPrivilegeByRoleId(long id) {
         return privilegeMapper.toDto(roleRepository.findPrivilegesByRoleId(findById(id).getId()));
+    }
+
+    @Override
+    public Role findByName(String name) {
+      isUnique(name);
+     return roleRepository.findByNameIgnoreCase(name);
     }
 
 
