@@ -15,4 +15,6 @@ public interface RoleRepository extends JpaRepository<Role,Long> {
 
     @Query("select r.privileges from  Role  as r where  r.id=?1")
      List<Privilege>   findPrivilegesByRoleId(long id);
+
+    Role findByNameIgnoreCase(String name);
 }
