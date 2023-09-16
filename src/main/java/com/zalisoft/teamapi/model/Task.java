@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -26,21 +27,38 @@ public class Task extends AbstractModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     private User user;
+
     @Column(name ="name")
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "status",nullable = false)
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
-    private LocalDate beginning;
+
+    @Column(insertable = false, updatable = false,name = "assigned_date")
+    private LocalDateTime beginning= getCreatedDate();
+
     @Column(name = "deadline")
     private LocalDate deadline;
+
+    @OneToOne
+    @JoinColumn(name = "team_id", insertable = false, updatable = false)
+    private Team team;
+    @Column(name = "team_id")
+    private Long teamId;
 
 
 }
