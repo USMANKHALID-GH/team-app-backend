@@ -30,7 +30,9 @@ public interface ReportRepository extends JpaRepository<Report , Long> {
     @Query("from Report  r where r.team.captain.id=:id and r.createdDate<:days")
     List<Report>  findReportByCaptain(long id, LocalDateTime days);
 
-    List<Report>  findReportsByCompletedFalse();
+    @Query("SELECT r FROM Report r WHERE r.isCompleted = false")
+    List<Report> findReportsByCompletedFalse();
+
 
     @Query(value = "select  u.* from  users as u where " +
             " not in (select r.user from reports);", nativeQuery = true)
