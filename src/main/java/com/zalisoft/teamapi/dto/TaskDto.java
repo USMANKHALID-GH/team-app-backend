@@ -10,11 +10,12 @@ import java.time.LocalDateTime;
 public class TaskDto extends BaseDto {
     private  Long id;
     private String name;
-    private UserDto user;
+    private UserShortDto user;
     private ProjectDto project;
     private TaskStatus status;
     private LocalDateTime beginning;
     private LocalDate deadline;
     private Long teamId;
     private String description;
+    private String image;
 }

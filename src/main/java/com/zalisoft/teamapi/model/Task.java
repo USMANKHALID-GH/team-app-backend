@@ -55,9 +55,9 @@ public class Task extends AbstractModel{
     private LocalDate deadline;
 
     @OneToOne
-    @JoinColumn(name = "team_id", insertable = false, updatable = false)
+    @JoinColumn(name = "team_id")
     private Team team;
-    @Column(name = "team_id")
+    @Column(name = "team_id", insertable = false, updatable = false)
     private Long teamId;
 
 
