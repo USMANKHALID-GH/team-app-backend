@@ -42,7 +42,7 @@ public class Report extends AbstractModel{
     @Column(name = "details", nullable = false)
     private String details;
 
-    @Column(name = "is_completed",insertable = false)
+    @Column(name = "is_completed")
     private boolean isCompleted;
 
     @ManyToOne

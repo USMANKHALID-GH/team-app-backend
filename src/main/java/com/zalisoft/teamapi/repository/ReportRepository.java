@@ -1,7 +1,6 @@
 package com.zalisoft.teamapi.repository;
 
 import com.zalisoft.teamapi.model.Report;
-import com.zalisoft.teamapi.model.Team;
 import com.zalisoft.teamapi.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +33,11 @@ public interface ReportRepository extends JpaRepository<Report , Long> {
     List<Report> findReportsByCompletedFalse();
 
 
-    @Query(value = "select  u.* from  users as u where " +
-            " not in (select r.user from reports);", nativeQuery = true)
-    List<User>    findUserUnsentReport();
+    @Query(value = " SELECT u.* FROM report as r  " +
+            " inner join users as u on r.user_id<>u.id" +
+            " where r.deleted=false;", nativeQuery = true)
+    List<User> findUserUnsentReport();
+
+
+
 }
