@@ -20,6 +20,7 @@ public class PrivilegeController {
     @Autowired
     private PrivilegeService service;
 
+
     @PostMapping("/privilege")
     public ResponseEntity<BaseResponseDto> save(@RequestBody PrivilegeDto privilegeDto){
         service.save(privilegeDto);
@@ -31,6 +32,7 @@ public class PrivilegeController {
     public  ResponseEntity<PrivilegeDto>  findById(@PathVariable long id){
         return ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
+
 
     @PutMapping("/privilege/{id}")
     public  ResponseEntity<PrivilegeDto>  update(@PathVariable long id,@RequestBody PrivilegeDto privilegeDto){
@@ -48,6 +50,7 @@ public class PrivilegeController {
     public ResponseEntity<PrivilegeDto> findByName(@PathVariable String name){
         return ResponseEntity.ok(mapper.toDto(service.findByName(name)));
     }
+
 
     @GetMapping("/privilege")
     public ResponseEntity<List<PrivilegeDto>> findAll(){
