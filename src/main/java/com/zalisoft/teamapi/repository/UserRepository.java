@@ -3,6 +3,7 @@ package com.zalisoft.teamapi.repository;
 import com.zalisoft.teamapi.model.Role;
 import com.zalisoft.teamapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +19,12 @@ public interface UserRepository  extends JpaRepository<User, Long> {
     boolean existsByPhone(String telefon);
 
     List<User>  findUserByRoles(Role role);
-}
+
+    @Query("SELECT u FROM Report r " +
+            "JOIN r.user u " +
+            "JOIN Team t ON t.captain.id = u.id " +
+            "WHERE r.deleted = false AND t.captain.tc = :tc")
+    List<User> findUserUnsentReportByCaptainTc(String tc);
+
+    Optional<User>  findByTc(String tc);
+ }

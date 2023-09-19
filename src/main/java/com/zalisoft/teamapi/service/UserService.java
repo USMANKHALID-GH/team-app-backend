@@ -31,4 +31,12 @@ public interface UserService {
 
     User findCurrentUser();
 
+
+    void deleteByAdmin(long id);
+
+    List<User> findUserUnsentReport(String tc);
+
+    User findByTc(String tc);
+
+
 }

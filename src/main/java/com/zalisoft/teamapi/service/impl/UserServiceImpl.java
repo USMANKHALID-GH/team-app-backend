@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Set;
 
 import static com.zalisoft.teamapi.util.SecurityUtils.getCurrentUsername;
 
@@ -65,7 +64,7 @@ UserServiceImpl implements UserService {
             throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_020);
         }
         if(StringUtils.isEmpty(userRegisterDto.getEmail())){
-            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_021);
+            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_005);
         }
         if(StringUtils.isEmpty(userRegisterDto.getFirstName())){
             throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_022);
@@ -82,11 +81,12 @@ UserServiceImpl implements UserService {
             throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_025);
 
         }
+
         if(userRepository.existsByEmail(userRegisterDto.getEmail())){
-            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_002);
+            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_003);
         }
         if(userRepository.existsByPhone(userRegisterDto.getPhone())){
-            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_003);
+            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_002);
         }
 
         log.info("address: {}", userRegisterDto.getAddress().toString());
@@ -104,8 +104,8 @@ UserServiceImpl implements UserService {
         user.setExperience(userRegisterDto.getExperience());
         user.setImage(userRegisterDto.getImage());
         user.setTitle(userRegisterDto.getTitle());
-        Role role=roleService.findByName(UserType.USER.name());
-        user.setRoles(Set.of(role));
+//        Role role=roleService.findByName(UserType.USER.name());
+//        user.setRoles(Set.of(role));
         return userRepository.save(user);
 
 
@@ -167,6 +167,22 @@ UserServiceImpl implements UserService {
         String current=getCurrentUsername();
         log.info("user :{}",current);
        return findOneByEmail(current);
+    }
+
+    @Override
+    public void deleteByAdmin(long id) {
+        userRepository.delete(findById(id));
+    }
+
+    @Override
+    public List<User> findUserUnsentReport(String tc) {
+        return userRepository.findUserUnsentReportByCaptainTc(tc);
+    }
+
+    @Override
+    public User findByTc(String tc) {
+        return userRepository.findByTc(tc)
+                .orElseThrow(()->new BusinessException(ResponseMessageEnum.BACK_USER_MSG_001));
     }
 
 
