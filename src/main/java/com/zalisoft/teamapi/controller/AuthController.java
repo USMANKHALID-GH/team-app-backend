@@ -2,7 +2,6 @@ package com.zalisoft.teamapi.controller;
 
 import com.zalisoft.teamapi.dto.AuthRequest;
 import com.zalisoft.teamapi.dto.AuthToken;
-import com.zalisoft.teamapi.dto.BaseResponseDto;
 import com.zalisoft.teamapi.dto.UserRegisterDto;
 import com.zalisoft.teamapi.mapper.UserRegisterMapper;
 import com.zalisoft.teamapi.service.UserService;
