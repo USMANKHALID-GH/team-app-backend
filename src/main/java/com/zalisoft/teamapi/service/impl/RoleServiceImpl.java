@@ -51,11 +51,6 @@ public class RoleServiceImpl implements RoleService {
         Role role= new Role();
         role.setName(roleDto.getName());
         Set<Privilege> privileges=privilegeMapper.toEntity(roleDto.getPrivileges());
-//        boolean privilegeExist=privileges.stream()
-//                        .anyMatch(privilege -> privilegeService.existByName(privilege.getName()));
-//        if(privilegeExist){
-//            throw new BusinessException(ResponseMessageEnum. BACK_PRIVILEGE_MSG_002);
-//        }
         role.setPrivileges(privileges);
         roleRepository.save(role);
 
@@ -65,7 +60,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findById(long id) {
         return roleRepository.findById(id)
-                .orElseThrow(()-> new BusinessException(""));}
+                .orElseThrow(()-> new BusinessException(ResponseMessageEnum.BACK_ROLE_MSG_001));}
 
 
     @Override
@@ -124,7 +119,7 @@ public class RoleServiceImpl implements RoleService {
 
     private void isUnique(String name){
        if(roleRepository.existsByNameIgnoreCase(name)){
-           throw  new BusinessException(ResponseMessageEnum.BACK_ROLE_MSG_001);
+           throw  new BusinessException(ResponseMessageEnum.BACK_ROLE_MSG_004);
        }
     }
 

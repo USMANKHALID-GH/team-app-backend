@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/admin")
 public class RoleController {
 
     @Autowired
@@ -51,7 +51,7 @@ public class RoleController {
     }
 
 
-    @PutMapping("/role/{id}/privilege")
+    @GetMapping("/role/{id}/privilege")
     public ResponseEntity<List<PrivilegeDto>>  findPrivilegeByRoleId(@PathVariable  long id){
         return ResponseEntity.ok(service.findPrivilegeByRoleId(id));
     }
