@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PrivilegeServiceImpl implements PrivilegeService {
 
@@ -67,5 +69,10 @@ public class PrivilegeServiceImpl implements PrivilegeService {
 
     public  boolean  existByName(String name){
        return privilegeRepository.existsByNameIgnoreCase(name);
+    }
+
+    @Override
+    public List<Privilege> findAll() {
+        return privilegeRepository.findAll();
     }
 }

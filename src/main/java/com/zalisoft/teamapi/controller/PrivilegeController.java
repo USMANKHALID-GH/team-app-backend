@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/admin")
 public class PrivilegeController {
 
     @Autowired
@@ -45,6 +47,11 @@ public class PrivilegeController {
     @GetMapping("/privilege/name/{name}")
     public ResponseEntity<PrivilegeDto> findByName(@PathVariable String name){
         return ResponseEntity.ok(mapper.toDto(service.findByName(name)));
+    }
+
+    @GetMapping("/privilege")
+    public ResponseEntity<List<PrivilegeDto>> findAll(){
+        return ResponseEntity.ok(mapper.toDto(service.findAll()));
     }
 
 

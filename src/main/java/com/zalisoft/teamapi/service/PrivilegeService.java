@@ -3,6 +3,8 @@ package com.zalisoft.teamapi.service;
 import com.zalisoft.teamapi.dto.PrivilegeDto;
 import com.zalisoft.teamapi.model.Privilege;
 
+import java.util.List;
+
 public  interface PrivilegeService {
 
     void save(PrivilegeDto privilegeDto);
@@ -16,4 +18,6 @@ public  interface PrivilegeService {
     Privilege findByName(String name);
 
     boolean existByName(String name);
+
+    List<Privilege>  findAll();
 }
