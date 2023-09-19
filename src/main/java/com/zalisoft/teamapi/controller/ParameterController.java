@@ -34,10 +34,12 @@ public class ParameterController {
         return ResponseEntity.ok(mapper.toDto(service.findByKey(key)));
     }
 
+
     @PostMapping("/admin/parameter")
     public ResponseEntity<ParameterDto> save(@RequestBody ParameterDto parameterDto){
         return ResponseEntity.ok(mapper.toDto(service.save(parameterDto)));
     }
+
 
     @PutMapping("/admin/parameter/{id}")
     public ResponseEntity<BaseResponseDto> update(@PathVariable long id ,@RequestBody ParameterDto parameterDto){
