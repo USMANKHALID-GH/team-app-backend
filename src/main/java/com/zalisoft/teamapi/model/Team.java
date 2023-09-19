@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,13 +28,13 @@ public class Team extends AbstractModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "image" ,unique = true)
+    @Column(name = "image")
     private String image;
 
     @Column(name = "name", unique = true)
     private String name;
 
-    @OneToOne(optional = false )
+    @OneToOne(optional = false)
     private User captain;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)

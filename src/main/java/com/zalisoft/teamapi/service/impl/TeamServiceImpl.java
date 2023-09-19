@@ -1,20 +1,26 @@
 package com.zalisoft.teamapi.service.impl;
 
 import com.zalisoft.teamapi.dto.TeamDto;
+import com.zalisoft.teamapi.enums.ResponseMessageEnum;
 import com.zalisoft.teamapi.exception.BusinessException;
 import com.zalisoft.teamapi.model.Team;
 import com.zalisoft.teamapi.model.User;
 import com.zalisoft.teamapi.repository.TeamRepository;
 import com.zalisoft.teamapi.service.TeamService;
 import com.zalisoft.teamapi.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TeamServiceImpl implements TeamService {
 
     @Autowired
@@ -26,7 +32,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team save(TeamDto teamDto, long captainId) {
         if(StringUtils.isEmpty(teamDto.getName())){
-            throw new BusinessException("");
+            throw new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_001);
         }
 
         User captain =userService.findById(captainId);
@@ -39,25 +45,23 @@ public class TeamServiceImpl implements TeamService {
 
     }
 
+
     @Override
     public Team assignMember(long id,long memberId) {
         User captain=userService.findCurrentUser();
         Team team= findById(id);
         if(captain.getId().equals(team.getCaptain().getId())){
-            team.setMembers(List.of(userService.findById(memberId)));
-            teamRepository.save(team);
-            return team;
+            team.getMembers().add(userService.findById(id));
+             return teamRepository.save(team);
         }
         else
-            throw  new BusinessException("");
-
-    }
+            throw  new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_002);}
 
 
     @Override
     public Team findById(long id) {
         return teamRepository.findById(id)
-                .orElseThrow(()->new BusinessException(""));
+                .orElseThrow(()->new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_003));
     }
 
 
@@ -68,15 +72,27 @@ public class TeamServiceImpl implements TeamService {
 
 
     @Override
-    public Team removeTeam(long id, long memberId) {
+    public Team removeTeamMember(long id, long memberId) {
         User captain=userService.findCurrentUser();
         Team team=findById(id);
         if(captain.getId().equals(team.getCaptain().getId())){
             team.getMembers().remove(userService.findById(memberId));
+            teamRepository.save(team);
             return team;
         }
        else
-           throw  new BusinessException("");
+           throw  new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_004);}
+
+
+    @Override
+    public void delete(long id) {
+        teamRepository.deleteById(findById(id).getId());}
+
+    @Override
+    public List<User> findMembersByCaptainTc(String tc) {
+        return teamRepository.findMembersByCaptainTc(tc)
+                .orElseThrow(()->new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_003));
     }
+
 
 }
