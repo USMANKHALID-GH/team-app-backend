@@ -61,24 +61,24 @@ UserServiceImpl implements UserService {
         User user=new  User();
 
         if(StringUtils.isEmpty(userRegisterDto.getTc())){
-            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_020);
+            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_007);
         }
         if(StringUtils.isEmpty(userRegisterDto.getEmail())){
             throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_005);
         }
         if(StringUtils.isEmpty(userRegisterDto.getFirstName())){
-            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_022);
+            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_008);
 
         }
         if(StringUtils.isEmpty(userRegisterDto.getLastName())){
-            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_023);
+            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_009);
         }
         if(StringUtils.isEmpty(userRegisterDto.getTitle().name())){
-            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_024);
+            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_010);
 
         }
         if (ObjectUtils.isEmpty(Integer.valueOf(userRegisterDto.getExperience()))){
-            throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_025);
+            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_011);
 
         }
 
@@ -123,7 +123,7 @@ UserServiceImpl implements UserService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             authToken=tokenProvider.createToken(authentication);
         }catch (AuthenticationException e){
-            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_019);
+            throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_06);
         }
 
         return authToken;
