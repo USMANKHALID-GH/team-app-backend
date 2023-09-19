@@ -13,7 +13,12 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
     @Query(value= "select p.*  from project as p where p.deadline<:date and p.status<>:status " ,nativeQuery = true)
-    List<Project>   findUnfinishedProject(LocalDate date, String status);
+    List<Project> findUnfinishedProjectThatExceedDeadline(LocalDate date, String status);
+
+    @Query(value= "select p.*  from project as p where p.status<>:status " ,nativeQuery = true)
+    List<Project>   findAllUnfinishedProject(String status);
+
+
 
     @Query(value = "select p.* from project  p where p.status=?1",nativeQuery = true)
     List<Project>  findByStatusIgnoreCase(String status);
@@ -26,4 +31,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
             "       or lower(p.status) like lower(concat('%', :searchText,'%'))" +
             "        or lower(p.projectManager.firstName) like lower(concat('%', :searchText,'%'))")
     Page<Project> search(String searchText, Pageable pageable);
+
+
 }
