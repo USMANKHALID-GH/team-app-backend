@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/api")
 public class ProjectController {
 
     @Autowired
@@ -28,13 +28,13 @@ public class ProjectController {
     private ProjectMapper mapper;
 
 
-    @GetMapping("/super-admin/project/{id}")
+    @GetMapping("/admin/project/{id}")
     public ResponseEntity<ProjectDto> findById(@PathVariable long id){
         return  ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
 
 
-    @PostMapping("/super-admin/project/user/{userId}")
+    @PostMapping("/admin/project/user/{userId}")
     public ResponseEntity<BaseResponseDto> save(@PathVariable long userId, @RequestBody ProjectDto projectDto){
         service.save(projectDto,userId);
         return  ResponseEntity.ok(BaseResponseDto.builder().message("Project basarili bir sekilde kaydedilmistir").build());
@@ -47,7 +47,7 @@ public class ProjectController {
     }
 
 
-    @PutMapping("/super-admin/project/{id}/extend-date")
+    @PutMapping("/admin/project/{id}/extend-date")
     public ResponseEntity<BaseResponseDto> extendProjectDeadline(@PathVariable long id, @RequestParam("date")String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
         LocalDate date1 = LocalDate.parse(date, formatter);
@@ -56,23 +56,29 @@ public class ProjectController {
     }
 
 
-    @GetMapping("/super-admin/project/un-finished")
-    public ResponseEntity<List<ProjectDto>> findUnfinishedProject(){
-        return  ResponseEntity.ok(mapper.toDto(service.findUnfinishedProject()));
+    @GetMapping("/admin/project/un-finished")
+    public ResponseEntity<List<ProjectDto>> findAllUnfinishedProject(){
+        return  ResponseEntity.ok(mapper.toDto(service. findAllUnfinishedProject()));
     }
 
 
-    @GetMapping("/super-admin/project/status/{status}")
+    @GetMapping("/admin/project/status/{status}")
     public ResponseEntity<List<ProjectDto>> findProjectByStatus(@PathVariable String status){
         return  ResponseEntity.ok(mapper.toDto(service.findProjectByStatus(status)));
     }
 
 
-    @GetMapping("/super-admin/project")
+    @GetMapping("/admin/project")
     public ResponseEntity<Page<ProjectDto>> search(@RequestParam(value = "search", required = false) String search, Pageable pageable){
         return  ResponseEntity.ok(new PageImpl<>(mapper.toDto(service.search(pageable,search).getContent())));
     }
 
+
+    @DeleteMapping("/admin/project/{id}")
+    public ResponseEntity<BaseResponseDto>  delete(@PathVariable long id){
+        service.delete(id);
+        return ResponseEntity.ok(BaseResponseDto.builder().message("Project Basarili bir sekilde silinmistir").build());
+    }
 
 
 

@@ -19,11 +19,17 @@ public interface ProjectService {
 
     void extendProjectDeadline(LocalDate localDate , long id);
 
-    List<Project>   findUnfinishedProject();
+    List<Project> findUnfinishedProjectThatExceedDeadline();
+
+    List<Project>  findAllUnfinishedProject();
 
     List<Project> findProjectByStatus(String status);
 
     Page<Project>  search(Pageable pageable ,String search);
 
+
+    List<Project>  findByMultipleId(List<Long> ids);
+
+    void delete(long id);
 
 }

@@ -44,7 +44,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         if(ObjectUtils.isEmpty(projectDto.getStarting())){
-            throw  new BusinessException(ResponseMessageEnum.BACK_PROJECT_MSG_002);
+            throw  new BusinessException(ResponseMessageEnum.BACK_PROJECT_MSG_003);
         }
 
         Project project=new Project();
@@ -92,9 +92,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findUnfinishedProject() {
+    public List<Project> findUnfinishedProjectThatExceedDeadline() {
         final  LocalDate date = LocalDate.now();
-        return projectRepository.findUnfinishedProject(date,ProjectStatus.FINISHED.name());
+        return projectRepository.findUnfinishedProjectThatExceedDeadline(date,ProjectStatus.FINISHED.name());
+    }
+
+    @Override
+    public List<Project> findAllUnfinishedProject() {
+        return projectRepository.findAllUnfinishedProject(ProjectStatus.FINISHED.name());
     }
 
     @Override
@@ -106,6 +111,22 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Page<Project> search(Pageable pageable, String search) {
         return projectRepository.search(search,pageable);
+    }
+
+    @Override
+    public List<Project> findByMultipleId(List<Long> ids) {
+        return projectRepository.findAllById(ids);
+    }
+
+    @Override
+    public void delete(long id) {
+        User user =userService.findCurrentUser();
+        Project project=findById(id);
+        if(project.getProjectManager().getId().equals(user.getId())){
+            projectRepository.delete(project);
+        }
+        else
+            throw new BusinessException(ResponseMessageEnum.BACK_PROJECT_MSG_005);
     }
 
 }

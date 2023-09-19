@@ -18,7 +18,7 @@ public class ProjectJobs {
     @Autowired
     private EmailService emailService;
 
-    @Scheduled(cron = CronConstant.EVERY_MINUTE)
+    @Scheduled(cron = CronConstant.EVERY_NIGHT_AT_ONE)
     @SchedulerLock(name = "sendMessageToProjectManagersForUnfinishedProject")
     private   void sendMessageToProjectManagersForUnfinishedProject(){
         log.info("job is working !!!!!!!!!!!!!!!!");

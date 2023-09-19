@@ -43,7 +43,7 @@ public class Project extends AbstractModel{
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "project_manager_id",nullable = false)
     private User projectManager;
 

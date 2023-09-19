@@ -14,5 +14,5 @@ public class ProjectDto  extends BaseDto{
     private LocalDate deadline;
     private Double budget;
     private ProjectStatus status;
-    private UserDto projectManager;
+    private UserShortDto projectManager;
 }
