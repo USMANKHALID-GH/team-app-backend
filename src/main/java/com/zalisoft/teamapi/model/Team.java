@@ -35,6 +35,7 @@ public class Team extends AbstractModel{
     private String name;
 
     @OneToOne(optional = false)
+    @JoinColumn(name = "captain_id")
     private User captain;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
