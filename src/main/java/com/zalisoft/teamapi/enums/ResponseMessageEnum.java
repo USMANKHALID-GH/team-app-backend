@@ -48,6 +48,7 @@ public enum ResponseMessageEnum {
     BACK_REPORT_MSG_001("back.report.msg.001", "Report  mevcut degildir"),
     BACK_REPORT_MSG_002("back.report.msg.002", "Report  hours degildir"),
     BACK_REPORT_MSG_003("back.report.msg.003", "Report  details degildir"),
+    BACK_REPORT_MSG_004("back.report.msg.004", "Haftada bir kere izin aliniyor"),
 
     BACK_PARAMETER_MSG_001("back.parameter.msg.001", "Parameter key mevcut degil"),
     BACK_PARAMETER_MSG_002("back.parameter.msg.003", "Parameter key girilmeli"),
@@ -57,6 +58,13 @@ public enum ResponseMessageEnum {
 
     BACK_CAUTION_MSG_001("back.caution.msg.001", "Caution  mevcut degil"),
     BACK_CAUTION_MSG_002("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
+
+
+    BACK_PERMISSION_MSG_001("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
+    BACK_PERMISSION_MSG_002("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
+
+    BACK_PERMISSION_MSG_003("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
+
 
 
 
