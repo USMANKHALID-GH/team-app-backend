@@ -46,10 +46,13 @@ public class Report extends AbstractModel{
     private boolean isCompleted;
 
     @ManyToOne
+    @JoinColumn(name = "sender_id")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "team_id")
     private Team team;
+
     @Column(name = "day_off")
     private boolean isDayOff;
 
