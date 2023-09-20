@@ -155,6 +155,27 @@ public class ReportServiceImpl implements ReportService {
         reportRepository.save(report);
     }
 
+    @Override
+    public void setDayOff(boolean dayOff) {
+        User user=userService.findCurrentUser();
+        if(!reportRepository.existsByDayOffTrueAndUser(user.getId()).isPresent()){
+        Report report=new Report();
+        report.setUser(user);
+        report.setDayOff(dayOff);
+        report.setCompleted(true);
+        report.setHours(0);
+        report.setPersonLearning("day off");
+        report.setDetails("day off");
+        reportRepository.save(report);}
+        else
+            throw  new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_004);
+    }
+
+    @Override
+    public void seekPermission() {
+        User user =userService.findCurrentUser();
+
+    }
 
 
     private boolean checkIfIsMoreThan8hours(int hours,int mins){

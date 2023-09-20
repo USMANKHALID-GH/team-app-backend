@@ -50,6 +50,8 @@ public class Report extends AbstractModel{
 
     @ManyToOne
     private Team team;
+    @Column(name = "day_off")
+    private boolean isDayOff;
 
 
 

@@ -28,5 +28,9 @@ public interface ReportService {
 
     void update(ReportDto dto,long id);
 
+    void  setDayOff(boolean dayOff);
+
+    void seekPermission();
+
 
 }
