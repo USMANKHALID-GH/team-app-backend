@@ -27,5 +27,8 @@ public interface TeamRepository extends JpaRepository<Team,Long> {
     @Query("select t.members from Team as t  where  t.captain.tc=:tc")
     Optional<List<User>> findMembersByCaptainTc(String  tc);
 
+    
+
+
 
 }
