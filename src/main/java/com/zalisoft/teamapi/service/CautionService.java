@@ -10,7 +10,7 @@ public interface CautionService {
 
     List<Caution>  findAll();
 
-    void  save(String tc);
+    void  save(List<Long> userList);
 
     List<Caution>  findByCurrentUser();
 

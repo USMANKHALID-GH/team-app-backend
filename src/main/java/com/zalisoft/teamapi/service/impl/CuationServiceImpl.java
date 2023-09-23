@@ -43,21 +43,17 @@ public class CuationServiceImpl implements CautionService {
     }
 
     @Override
-    public void save(String tc) {
+    public void save(List<Long> userList) {
 
         Caution caution=new Caution();
         Parameter parameter=parameterService.getCautionParameter();
         User user=userService.findCurrentUser();
-        if(user.getTc().equals(tc)) {
+        caution.setName(parameter.getValue());
+        caution.setIssuedUserId(user.getId());
+        caution.setUser( userService.findAllByListOfId(userList));
+        caution.setMessage(parameter.getDescription());
+        cautionRepository.save(caution);
 
-            List<User> users = teamService.findMembersByCaptainTc(user.getTc());
-            caution.setUser(users);
-            caution.setIssuedUserId(user.getId());
-            caution.setMessage(parameter.getDescription());
-            caution.setName(parameter.getValue());
-            log.info("User : {} ",caution.toString());
-            cautionRepository.save(caution);
-        }
 
 
     }
