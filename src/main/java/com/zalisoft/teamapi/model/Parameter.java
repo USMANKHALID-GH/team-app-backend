@@ -29,7 +29,7 @@ public class Parameter extends AbstractModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "key")
+    @Column(name = "key",unique = true)
     private String key;
 
     @Column(name = "value")

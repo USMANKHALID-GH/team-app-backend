@@ -40,12 +40,16 @@ public class ParameterServiceImpl implements ParameterService {
         if(StringUtils.isEmpty(parameterDto.getKey())){
             throw  new BusinessException(ResponseMessageEnum. BACK_PARAMETER_MSG_002);
         }
+
+        uniqueKey(parameterDto.getKey());
+
         if(StringUtils.isEmpty(parameterDto.getDescription())){
             throw new BusinessException(ResponseMessageEnum.BACK_PARAMETER_MSG_003);
         }
         if(StringUtils.isEmpty(parameterDto.getValue())){
 
         }
+
          Parameter parameter= new Parameter();
         parameter.setDescription(parameterDto.getDescription());
         parameter.setKey(parameterDto.getKey());
@@ -109,6 +113,11 @@ public class ParameterServiceImpl implements ParameterService {
 
 
 
+ private void   uniqueKey(String key){
+        if(parameterRepository.keyExist(key)){
+            throw  new BusinessException(ResponseMessageEnum.BACK_PARAMETER_MSG_005);
+        }
 
+ }
 
 }
