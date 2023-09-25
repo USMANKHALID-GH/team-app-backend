@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -32,8 +33,14 @@ public class TeamController {
     }
 
     @PostMapping("/admin/team/{id}/member/{mId}")
-    public ResponseEntity<TeamDto> assignMember(@PathVariable long id,@PathVariable long mId){
-        return ResponseEntity.ok(mapper.toDto(service.assignMember(id,mId)));
+    public ResponseEntity<TeamDto> assignAMember(@PathVariable long id,@PathVariable long mId){
+        return ResponseEntity.ok(mapper.toDto(service.assignAMember(id,mId)));
+    }
+
+
+    @PostMapping("/admin/team/{id}/members")
+    public ResponseEntity<TeamDto> assignMembers(@PathVariable long id,@RequestParam("members") List<Long> members){
+        return ResponseEntity.ok(mapper.toDto(service.assignMembers(members,id)));
     }
 
 

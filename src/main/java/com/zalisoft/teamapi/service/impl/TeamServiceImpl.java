@@ -47,7 +47,7 @@ public class TeamServiceImpl implements TeamService {
 
 
     @Override
-    public Team assignMember(long id,long memberId) {
+    public Team assignAMember(long id, long memberId) {
         User captain=userService.findCurrentUser();
         Team team= findById(id);
         if(captain.getId().equals(team.getCaptain().getId())){
@@ -56,6 +56,20 @@ public class TeamServiceImpl implements TeamService {
         }
         else
             throw  new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_002);}
+
+    @Override
+    public Team assignMembers(List<Long> members,long id) {
+        Team team=findById(id);
+        User captain=userService.findCurrentUser();
+        List<User> memberList=userService.findAllByListOfId(members);
+        if(captain.getId().equals(team.getCaptain().getId())){
+            team.getMembers().addAll(memberList);
+            return teamRepository.save(team);
+        }
+        else
+            throw  new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_002);
+
+    }
 
 
     @Override

@@ -11,6 +11,6 @@ public class TeamDto extends BaseDto{
     private Long id;
     private String image;
     private  String name;
-    private UserDto captain;
-    private List<UserDto> members;
+    private UserShortDto captain;
+    private List<UserShortDto> members;
 }

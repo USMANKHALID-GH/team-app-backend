@@ -11,7 +11,9 @@ public interface TeamService {
 
     Team  save(TeamDto teamDto, long captainId);
 
-    Team  assignMember(long id,long memberId);
+    Team assignAMember(long id, long memberId);
+
+    Team assignMembers(List<Long> members, long id);
 
     Team findById(long id);
 
