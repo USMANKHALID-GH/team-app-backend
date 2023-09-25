@@ -54,21 +54,29 @@ public enum ResponseMessageEnum {
     BACK_PARAMETER_MSG_002("back.parameter.msg.003", "Parameter key girilmeli"),
     BACK_PARAMETER_MSG_003("back.parameter.msg.003", "Parameter description girilmeli"),
     BACK_PARAMETER_MSG_004("back.parameter.msg.004", "Parameter mevcut degildir"),
+    BACK_PARAMETER_MSG_005("back.parameter.msg.005", "Parameter key mevcuttur"),
 
 
     BACK_CAUTION_MSG_001("back.caution.msg.001", "Caution  mevcut degil"),
-    BACK_CAUTION_MSG_002("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
+    BACK_CAUTION_MSG_002("back.caution.msg.002", "Caution  isim bos birakilmaz"),
+    BACK_CAUTION_MSG_003("back.caution.msg.003", "Caution  mesaj bos birakilmaz"),
 
 
-    BACK_PERMISSION_MSG_001("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
-    BACK_PERMISSION_MSG_002("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
+    BACK_PERMISSION_MSG_001("back.permission.msg.001", "Permission  amaci girilmeli"),
+    BACK_PERMISSION_MSG_002("back.permission.msg.002", "Permission baslangic tarih girilmeli"),
+    BACK_PERMISSION_MSG_003("back.permission.msg.003", "Permission bitis tarih girilmeli"),
+    BACK_PERMISSION_MSG_004("back.permission.msg.004", "Permission mevcut degildir"),
+    BACK_PERMISSION_MSG_005("back.permission.msg.005", "Bu permission islem sadece Captainlar yapilir"),
+    BACK_PERMISSION_MSG_006("back.permission.msg.006", "Bu permission islem sadece current user yapilir"),
 
-    BACK_PERMISSION_MSG_003("back.caution.msg.002", "Caution  gondermek sadece caption yapabilir"),
+
+    BACK_CAPTAIN_REPORT_MSG_001("back.capatin.report.msg.001", "Captain report  description bos birakilmaz"),
+
+    BACK_CAPTAIN_REPORT_MSG_002("back.capatin.report.msg.002", "Captain mevcut degildir"),
+    BACK_CAPTAIN_REPORT_MSG_003("back.capatin.report.msg.003", "Bu islem sadece captain yada project manager yapilmaktadir"),
 
 
-
-
-
+    BACK_IMAGE_MSG_001("back.image.001","Image {.jpg, .jpeg, .png, .gif, .bmp, .tiff}"),
 
 
     BACK_CURRENT_USER_MSG_001("back.current_user.msg.001", "Sadece current user islem yapabilir"),

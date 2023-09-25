@@ -67,6 +67,10 @@ public class ProjectController {
         return  ResponseEntity.ok(mapper.toDto(service.findProjectByStatus(status)));
     }
 
+    @GetMapping("/admin/project/un-finished-exceeded-deadline")
+    public ResponseEntity<List<ProjectDto>> indUnfinishedProjectThatExceedDeadline(){
+        return  ResponseEntity.ok(mapper.toDto(service.findUnfinishedProjectThatExceedDeadline()));
+    }
 
     @GetMapping("/admin/project")
     public ResponseEntity<Page<ProjectDto>> search(@RequestParam(value = "search", required = false) String search, Pageable pageable){
