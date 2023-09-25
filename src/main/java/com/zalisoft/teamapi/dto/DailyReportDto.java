@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ReportDto extends BaseDto{
+public class DailyReportDto extends BaseDto{
 
    private  Long id;
     private  int hours;

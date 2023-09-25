@@ -9,7 +9,6 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -19,7 +18,7 @@ import java.util.Set;
 @Table(name = "report")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SQLDelete(sql = "UPDATE report SET deleted=true WHERE id=?")
-public class Report extends AbstractModel{
+public class DailyReport extends AbstractModel{
     private static final long serialVersionUID = 1L;
 
     @Id
