@@ -10,11 +10,13 @@ import com.zalisoft.teamapi.model.Role;
 import com.zalisoft.teamapi.model.User;
 import com.zalisoft.teamapi.repository.UserRepository;
 import com.zalisoft.teamapi.security.jwt.TokenProvider;
+import com.zalisoft.teamapi.service.PermissionService;
 import com.zalisoft.teamapi.service.RoleService;
 import com.zalisoft.teamapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.control.MappingControl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,8 +35,7 @@ import static com.zalisoft.teamapi.util.SecurityUtils.getCurrentUsername;
 
 @Service
 @Slf4j
-public class
-UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private  UserRepository userRepository;
@@ -50,6 +51,10 @@ UserServiceImpl implements UserService {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private PermissionService permissionService;
+
 
     @Override
     public User findOneByEmail(String email) {
@@ -104,8 +109,6 @@ UserServiceImpl implements UserService {
         user.setExperience(userRegisterDto.getExperience());
         user.setImage(userRegisterDto.getImage());
         user.setTitle(userRegisterDto.getTitle());
-//        Role role=roleService.findByName(UserType.USER.name());
-//        user.setRoles(Set.of(role));
         return userRepository.save(user);
 
 
@@ -142,7 +145,7 @@ UserServiceImpl implements UserService {
     }
 
     @Override
-    public void unassignRoleToUser(long id, long roleId) {
+    public void unAssignRoleToUser(long id, long roleId) {
         User user=findById(id);
         user.getRoles().remove(roleService.findById(roleId));
         userRepository.save(user);
@@ -176,13 +179,37 @@ UserServiceImpl implements UserService {
 
     @Override
     public List<User> findUserUnsentReport(String tc) {
-        return userRepository.findUserUnsentReportByCaptainTc(tc);
+        List<User> userWithPermission=permissionService.findUserBetweenDeadlineAndStartingDate();
+        List<User> userUnsentReport= userRepository.findUserUnsentReportByCaptainTc(tc);
+        userUnsentReport.removeAll(userWithPermission);
+        return  userUnsentReport;
     }
 
     @Override
     public User findByTc(String tc) {
         return userRepository.findByTc(tc)
                 .orElseThrow(()->new BusinessException(ResponseMessageEnum.BACK_USER_MSG_001));
+    }
+
+    @Override
+    public List<User> findAllByListOfId(List<Long> id) {
+        return userRepository.findAllById(id);
+    }
+
+    @Override
+    public boolean checkIfCaptain(long id) {
+        return userRepository.checkIfCaptain(id).isPresent();
+    }
+
+    @Override
+    public void changePassword(String newPassword, String oldPassword) {
+       User user= findCurrentUser();
+       log.info("user : {}",user.toString());
+        if(passwordEncoder.matches(oldPassword,user.getPassword())){
+             user.setPassword(passwordEncoder.encode(newPassword));
+             userRepository.save(user);
+        }
+
     }
 
 

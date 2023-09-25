@@ -47,7 +47,7 @@ public class UserController {
 
     @PutMapping("/admin/user/{id}/unassign-role/{roleId}")
     public ResponseEntity<BaseResponseDto> unassignRoleToUser(@PathVariable long id,@PathVariable long roleId){
-        service.unassignRoleToUser(id,roleId);
+        service.unAssignRoleToUser(id,roleId);
         return  ResponseEntity.ok(BaseResponseDto.builder().message("Role basarili bir sekilde cikarilmistir").build());
     }
 
@@ -63,6 +63,14 @@ public class UserController {
     public ResponseEntity<BaseResponseDto>  delete(@PathVariable long id){
         service.deleteByAdmin(id);
         return ResponseEntity.ok(BaseResponseDto.builder().message("User Basarili bir sekilde silinmistir").build());
+    }
+
+
+    @PutMapping("/public/user/password")
+    public ResponseEntity<BaseResponseDto> updatePassword(@RequestParam(name = "oldPassword") String oldPassword,
+                                                          @RequestParam(name = "newPassword") String newPassword){
+        service.changePassword(newPassword,oldPassword);
+        return  ResponseEntity.ok(BaseResponseDto.builder().message("User password basarili bir sekilde gunlenmistir").build());
     }
 
 

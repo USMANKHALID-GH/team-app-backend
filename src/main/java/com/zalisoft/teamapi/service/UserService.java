@@ -23,7 +23,7 @@ public interface UserService {
 
     User findById(long id);
 
-    void unassignRoleToUser(long id, long roleId);
+    void unAssignRoleToUser(long id, long roleId);
 
     void updateByAdmin(long id, UserRegisterDto userRegisterDto);
 
@@ -37,6 +37,12 @@ public interface UserService {
     List<User> findUserUnsentReport(String tc);
 
     User findByTc(String tc);
+
+    List<User>  findAllByListOfId(List<Long> id);
+
+    boolean checkIfCaptain(long id);
+
+    void changePassword(String newPassword, String oldPassword);
 
 
 }

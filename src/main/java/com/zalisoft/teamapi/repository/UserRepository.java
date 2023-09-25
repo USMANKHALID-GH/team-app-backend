@@ -20,11 +20,14 @@ public interface UserRepository  extends JpaRepository<User, Long> {
 
     List<User>  findUserByRoles(Role role);
 
-    @Query("SELECT u FROM Report r " +
+    @Query("SELECT u FROM DailyReport r " +
             "JOIN r.user u " +
             "JOIN Team t ON t.captain.id = u.id " +
             "WHERE r.deleted = false AND t.captain.tc = :tc")
     List<User> findUserUnsentReportByCaptainTc(String tc);
 
     Optional<User>  findByTc(String tc);
+
+    @Query("FROM User r inner  join  Team  t on r.id=t.captain.id where t.captain.id=:id")
+    Optional<User>  checkIfCaptain(long id);
  }
