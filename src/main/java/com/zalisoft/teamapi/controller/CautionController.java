@@ -2,12 +2,10 @@ package com.zalisoft.teamapi.controller;
 
 import com.zalisoft.teamapi.dto.BaseResponseDto;
 import com.zalisoft.teamapi.dto.CautionDto;
-import com.zalisoft.teamapi.dto.ParameterDto;
 import com.zalisoft.teamapi.dto.UserDto;
 import com.zalisoft.teamapi.mapper.CautionMapper;
 import com.zalisoft.teamapi.mapper.UserDtoMapper;
 import com.zalisoft.teamapi.service.CautionService;
-import com.zalisoft.teamapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +32,17 @@ public class CautionController {
     }
 
 
-      @PostMapping("/admin/caution")
-    public ResponseEntity<BaseResponseDto> save(@RequestParam("captainTc") String tc){
-        service.save(tc);
+    @PostMapping("/admin/caution")
+    public ResponseEntity<BaseResponseDto> save(@RequestParam("userList") List<Long>  userList){
+        service.sendCautionToDailyReport(userList);
         return ResponseEntity.ok(BaseResponseDto.builder().message("Caution basarili bir sekilde gonderilmistir").build());}
+
+
+    @PostMapping("/admin/caution/user/{userId}")
+    public ResponseEntity<BaseResponseDto> sendPersonalCautionToUser(@RequestBody CautionDto cautionDto, @PathVariable long userId){
+        service.sendPersonalCautionToUser(cautionDto, userId);
+        return ResponseEntity.ok(BaseResponseDto.builder().message("Caution basarili bir sekilde gonderilmistir").build());}
+
 
 
     @GetMapping("/public/caution")
