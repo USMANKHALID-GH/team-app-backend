@@ -1,5 +1,7 @@
 package com.zalisoft.teamapi.service.impl;
 
+import com.zalisoft.teamapi.dto.CaptainReportDto;
+import com.zalisoft.teamapi.dto.CautionDto;
 import com.zalisoft.teamapi.enums.ResponseMessageEnum;
 import com.zalisoft.teamapi.exception.BusinessException;
 import com.zalisoft.teamapi.model.Caution;
@@ -9,12 +11,12 @@ import com.zalisoft.teamapi.repository.CautionRepository;
 import com.zalisoft.teamapi.service.*;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 
-import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,7 +37,7 @@ public class CuationServiceImpl implements CautionService {
     private TeamService teamService;
 
     @Autowired
-    private ReportService reportService;
+    private DailyReportService reportService;
 
     @Override
     public List<Caution> findAll() {
@@ -43,7 +45,7 @@ public class CuationServiceImpl implements CautionService {
     }
 
     @Override
-    public void save(List<Long> userList) {
+    public void sendCautionToDailyReport(List<Long> userList) {
 
         Caution caution=new Caution();
         Parameter parameter=parameterService.getCautionParameter();
@@ -57,6 +59,27 @@ public class CuationServiceImpl implements CautionService {
 
 
     }
+
+    @Override
+    public void sendPersonalCautionToUser(CautionDto cautionDto, long userId) {
+        User issuedBy=userService.findCurrentUser();
+        User to=userService.findById(userId);
+        if(StringUtils.isEmpty(cautionDto.getName())){
+            throw  new BusinessException(ResponseMessageEnum.BACK_CAUTION_MSG_002);
+        }
+
+        if(StringUtils.isEmpty(cautionDto.getMessage())){
+            throw new BusinessException(ResponseMessageEnum.BACK_CAUTION_MSG_003);
+        }
+        Caution caution=new Caution();
+        caution.setMessage(cautionDto.getMessage());
+        caution.setIssuedUserId(issuedBy.getId());
+        caution.setUser(List.of(to));
+        caution.setName(cautionDto.getName());
+        cautionRepository.save(caution);
+
+    }
+
 
     @Override
     public List<Caution> findByCurrentUser() {
