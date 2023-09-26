@@ -34,7 +34,7 @@ public interface UserService {
 
     void deleteByAdmin(long id);
 
-    List<User> findUserUnsentReport(String tc);
+    List<User> findUserUnsentReportByCaptainTc(String tc);
 
     User findByTc(String tc);
 

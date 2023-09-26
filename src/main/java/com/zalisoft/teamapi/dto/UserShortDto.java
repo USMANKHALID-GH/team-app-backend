@@ -8,5 +8,7 @@ public class UserShortDto extends BaseDto{
 
     private Long id;
     private String firstName;
-    private UserType userType;
+    private  String lastName;
+    private String  email;
+
 }

@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserUnsentReport(String tc) {
+    public List<User> findUserUnsentReportByCaptainTc(String tc) {
         List<User> userWithPermission=permissionService.findUserBetweenDeadlineAndStartingDate();
         List<User> userUnsentReport= userRepository.findUserUnsentReportByCaptainTc(tc);
         userUnsentReport.removeAll(userWithPermission);

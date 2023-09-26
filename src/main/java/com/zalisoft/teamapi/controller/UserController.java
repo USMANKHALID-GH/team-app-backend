@@ -46,7 +46,7 @@ public class UserController {
 
 
     @PutMapping("/admin/user/{id}/unassign-role/{roleId}")
-    public ResponseEntity<BaseResponseDto> unassignRoleToUser(@PathVariable long id,@PathVariable long roleId){
+    public ResponseEntity<BaseResponseDto> unAssignRoleToUser(@PathVariable long id,@PathVariable long roleId){
         service.unAssignRoleToUser(id,roleId);
         return  ResponseEntity.ok(BaseResponseDto.builder().message("Role basarili bir sekilde cikarilmistir").build());
     }

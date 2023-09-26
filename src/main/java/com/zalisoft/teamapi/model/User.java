@@ -59,6 +59,7 @@ public class User  extends AbstractModel{
 
     @Column(name = "experience", length = 20, nullable = false)
     private int experience;
+
     @Column(name = "tc", length = 11, nullable = false, unique = true)
     private String tc;
 
