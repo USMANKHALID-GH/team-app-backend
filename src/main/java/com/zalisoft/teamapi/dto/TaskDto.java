@@ -13,7 +13,7 @@ public class TaskDto extends BaseDto {
     private UserShortDto user;
     private ProjectDto project;
     private TaskStatus status;
-    private LocalDateTime beginning;
+    private LocalDate beginning;
     private LocalDate deadline;
     private Long teamId;
     private String description;

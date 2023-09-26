@@ -50,14 +50,15 @@ public class TaskServiceImpl implements TaskService {
         if(StringUtils.isEmpty(taskDto.getDescription())){
             throw  new BusinessException(ResponseMessageEnum.BACK_TASK_MSG_002);
         }
-//       if(StringUtils.isEmpty(taskDto.getStatus().name())){
-//           throw  new BusinessException(ResponseMessageEnum.BACK_TASK_MSG_003);
-//       }
+       if(StringUtils.isEmpty(taskDto.getBeginning().toString())){
+           throw  new BusinessException(ResponseMessageEnum.BACK_TASK_MSG_003);
+       }
        if(StringUtils.isEmpty(taskDto.getDeadline().toString())) {
             throw  new BusinessException(ResponseMessageEnum.BACK_TASK_MSG_004);
         }
 
         Task task =new Task();
+       task.setBeginning(taskDto.getBeginning());
        task.setStatus(TaskStatus.EVALUATION);
        task.setName(taskDto.getName());
        task.setUser(userToBeAssigned);

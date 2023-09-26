@@ -7,6 +7,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SQLDelete;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,14 +30,16 @@ public class Task extends AbstractModel{
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "assign_to")
     private User user;
 
     @Column(name ="name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
+
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
@@ -48,15 +51,18 @@ public class Task extends AbstractModel{
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
 
-    @Column(insertable = false, updatable = false,name = "assigned_date")
-    private LocalDateTime beginning= getCreatedDate();
+
+    @Column(name = "beginning_date")
+    private LocalDate beginning;
 
     @Column(name = "deadline")
     private LocalDate deadline;
 
-    @OneToOne
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
     @Column(name = "team_id", insertable = false, updatable = false)
     private Long teamId;
 
