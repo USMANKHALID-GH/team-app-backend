@@ -96,6 +96,12 @@ public class ParameterServiceImpl implements ParameterService {
         return  StringUtils.isNotEmpty(parameter.getValue()) ? Integer.parseInt(parameter.getValue()) : 3;
     }
 
+    public int getDailyReportLimit(){
+        Parameter parameter=findByKey(ParameterConstant.DAILY_REPORT_LIMIT);
+        return  StringUtils.isNotEmpty(parameter.getValue()) ? Integer.parseInt(parameter.getValue()) : 8;
+    }
+
+
     @Override
     public String getMessageForLimitCaution() {
           Parameter parameter=findByKey(ParameterConstant.SEND_CAUTION_TO_UNSENT_REPORT_BACKEND);

@@ -25,5 +25,7 @@ public interface ParameterService {
 
     Parameter getCautionParameter();
 
+    int getDailyReportLimit();
+
 
 }
