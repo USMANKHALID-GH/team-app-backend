@@ -1,17 +1,13 @@
 package com.zalisoft.teamapi.service.impl;
 
 import com.zalisoft.teamapi.dto.DailyReportDto;
+import com.zalisoft.teamapi.dto.ReportDto;
 import com.zalisoft.teamapi.enums.ResponseMessageEnum;
 import com.zalisoft.teamapi.exception.BusinessException;
-import com.zalisoft.teamapi.model.DailyReport;
-import com.zalisoft.teamapi.model.Project;
-import com.zalisoft.teamapi.model.Team;
-import com.zalisoft.teamapi.model.User;
+import com.zalisoft.teamapi.mapper.ReportDtoMapper;
+import com.zalisoft.teamapi.model.*;
 import com.zalisoft.teamapi.repository.DailyReportRepository;
-import com.zalisoft.teamapi.service.ProjectService;
-import com.zalisoft.teamapi.service.DailyReportService;
-import com.zalisoft.teamapi.service.TeamService;
-import com.zalisoft.teamapi.service.UserService;
+import com.zalisoft.teamapi.service.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -41,7 +37,10 @@ public class DailyReportServiceImpl implements DailyReportService {
     private ProjectService projectService;
 
     @Autowired
-    private TeamService teamService;
+    private ReportDtoMapper reportDtoMapper;
+
+    @Autowired
+    private ParameterService parameterService;
 
     @Override
     public List<DailyReport> search(Pageable pageable, String search) {
@@ -75,41 +74,42 @@ public class DailyReportServiceImpl implements DailyReportService {
 
     @Override
     public List<User> findUsersUnsentReport(String tc) {
-        List<User> usersUnsentReports=userService.findUserUnsentReport(tc);
+        List<User> usersUnsentReports=userService.findUserUnsentReportByCaptainTc(tc);
         List<User>  usersOnDayOff= findUsersOnDayOff();
         usersUnsentReports.removeAll(usersOnDayOff);
         return usersUnsentReports;
     }
 
     @Override
-    public DailyReport save(DailyReportDto dailyReportDto, List<Long> pId, long uId, long tId) {
+    public DailyReport save(DailyReportDto dailyReportDto) {
+        User user =userService.findCurrentUser();
         DailyReport dailyReport =new DailyReport();
-        List<Project> project;
-        if(!CollectionUtils.isEmpty(pId)){
-            project=projectService.findByMultipleId(pId);
-            dailyReport.setProject(project);
-        }
-
-        if(ObjectUtils.isEmpty(Integer.valueOf(dailyReportDto.getHours()))){
+        if(ObjectUtils.isEmpty(Integer.valueOf(dailyReportDto.getMinutes()))){
             throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_002);
         }
 
-        if(StringUtils.isEmpty(dailyReportDto.getDetails())){
-            throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_003);
+        if(!CollectionUtils.isEmpty(dailyReportDto.getReports())){
+            List<Report> reports=dailyReportDto.getReports()
+                   .stream()
+                   .map(s-> {
+                       if(StringUtils.isEmpty(s.getDetails())){
+                           throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_003);
+                       }
+                       if(!ObjectUtils.isEmpty(s.getProjectId())){
+                         projectService.findById(s.getProjectId());
+                       }
+                       return s;
+                   })
+                   .map(r->reportDtoMapper.toEntity(r))
+                   .collect(Collectors.toList());
+
+             dailyReport.setReports(reports);
         }
 
 
-        User user=userService.findById(uId);
-
-        Team team=teamService.findById(tId);
-        dailyReport.setHours(dailyReportDto.getHours());
         dailyReport.setMinutes(dailyReportDto.getMinutes());
-        dailyReport.setPersonLearning(dailyReportDto.getPersonLearning());
-        dailyReport.setDetails(dailyReportDto.getDetails());
         dailyReport.setUser(user);
-        dailyReport.setTeam(team);
-        dailyReport.setCompleted(checkIfIsMoreThan8hours(dailyReport.getHours(), dailyReport.getMinutes()));
-
+        dailyReport.setCompleted(checkIfIsMoreThan8hours(dailyReport.getMinutes()));
         return dailyReportRepository.save(dailyReport);
     }
 
@@ -123,34 +123,15 @@ public class DailyReportServiceImpl implements DailyReportService {
     public void update(DailyReportDto dto, long id) {
         User user=userService.findCurrentUser();
         DailyReport dailyReport =findById(id);
-        List<Project> project;
         if(user.getId().equals(dailyReport.getUser().getId())){
             throw   new BusinessException(ResponseMessageEnum.BACK_CURRENT_USER_MSG_001);
         }
-
-        if(!CollectionUtils.isEmpty(dto.getProject())){
-         List<Long> ids=dto.getProject().stream().map(s->s.getId()).collect(Collectors.toList());
-            project=projectService.findByMultipleId(ids);
-            dailyReport.setProject(project);
-        }
-
-        if(!ObjectUtils.isEmpty(Integer.valueOf(dto.getHours()))){
-           dailyReport.setHours(dto.getHours());
-        }
-
         if(!ObjectUtils.isEmpty(Integer.valueOf(dto.getMinutes()))){
-            dailyReport.setHours(dto.getMinutes());
+            dailyReport.setMinutes(dto.getMinutes());
         }
 
-        if(!StringUtils.isEmpty(dto.getDetails())){
-          dailyReport.setDetails(dto.getDetails());
-        }
 
-        if(!StringUtils.isEmpty(dto.getPersonLearning())){
-            dailyReport.setPersonLearning(dto.getPersonLearning());
-        }
-
-        dailyReport.setCompleted(checkIfIsMoreThan8hours(dailyReport.getHours(), dailyReport.getMinutes()));
+        dailyReport.setCompleted(checkIfIsMoreThan8hours(dailyReport.getMinutes()));
 
 
 
@@ -164,10 +145,6 @@ public class DailyReportServiceImpl implements DailyReportService {
         DailyReport dailyReport =new DailyReport();
         dailyReport.setUser(user);
         dailyReport.setDayOff(true);
-        dailyReport.setCompleted(true);
-        dailyReport.setHours(8);
-        dailyReport.setPersonLearning("day off");
-        dailyReport.setDetails("day off");
         dailyReportRepository.save(dailyReport);}
         else
             throw  new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_004);
@@ -185,8 +162,8 @@ public class DailyReportServiceImpl implements DailyReportService {
     }
 
 
-    private boolean checkIfIsMoreThan8hours(int hours,int mins){
-        LocalTime inputTime = LocalTime.of(hours, mins);
-        return inputTime.isAfter(LocalTime.of(8, 0));
+    private boolean checkIfIsMoreThan8hours(int mins){
+        LocalTime inputTime = LocalTime.of(mins / 60, mins % 60);
+        return inputTime.isAfter(LocalTime.of(parameterService.getDailyReportLimit(), 0));
     }
 }

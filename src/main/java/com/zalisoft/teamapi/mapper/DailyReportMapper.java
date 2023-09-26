@@ -5,5 +5,5 @@ import com.zalisoft.teamapi.model.DailyReport;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface ReportMapper extends EntityMapper<DailyReportDto, DailyReport> {
+public interface DailyReportMapper extends EntityMapper<DailyReportDto, DailyReport> {
 }

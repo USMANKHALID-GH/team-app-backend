@@ -3,7 +3,7 @@ package com.zalisoft.teamapi.controller;
 import com.zalisoft.teamapi.dto.BaseResponseDto;
 import com.zalisoft.teamapi.dto.DailyReportDto;
 import com.zalisoft.teamapi.dto.UserDto;
-import com.zalisoft.teamapi.mapper.ReportMapper;
+import com.zalisoft.teamapi.mapper.DailyReportMapper;
 import com.zalisoft.teamapi.mapper.UserDtoMapper;
 import com.zalisoft.teamapi.service.DailyReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class DailyReportController {
     private DailyReportService service;
 
     @Autowired
-    private ReportMapper mapper;
+    private DailyReportMapper mapper;
 
     @Autowired
     private UserDtoMapper userDtoMapper;
@@ -67,12 +67,9 @@ public class DailyReportController {
     }
 
 
-    @PostMapping("/admin/report")
-    public ResponseEntity<DailyReportDto> save(@RequestBody DailyReportDto dailyReportDto,
-                                               @RequestParam("userId")long userId,
-                                               @RequestParam("teamId") long teamId,
-                                               @RequestParam(value = "projectId",required = false) List<Long> projectId){
-        return ResponseEntity.ok(mapper.toDto(service.save(dailyReportDto, projectId,userId,teamId)));
+    @PostMapping("/public/report")
+    public ResponseEntity<DailyReportDto> save(@RequestBody DailyReportDto dailyReportDto){
+        return ResponseEntity.ok(mapper.toDto(service.save(dailyReportDto)));
     }
 
 

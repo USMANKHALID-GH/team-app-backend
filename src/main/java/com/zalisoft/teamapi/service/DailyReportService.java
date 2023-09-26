@@ -21,7 +21,7 @@ public interface DailyReportService {
 
     List<User> findUsersUnsentReport(String tc);
 
-    DailyReport save(DailyReportDto dailyReportDto, List<Long> pId, long uId, long tId);
+    DailyReport save(DailyReportDto dailyReportDto);
 
 
     void delete(long id);

@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "report")
+@Table(name = "daily_report")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SQLDelete(sql = "UPDATE report SET deleted=true WHERE id=?")
 public class DailyReport extends AbstractModel{
@@ -25,32 +25,20 @@ public class DailyReport extends AbstractModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "hours", nullable = false)
-    private int hours;
 
-    @Column(name = "minutes")
+    @Column(name = "minutes" )
     private int minutes;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinTable(name = "report_project", joinColumns = @JoinColumn(name = "report_id"), inverseJoinColumns = @JoinColumn(name = "project_id"))
-    private List<Project> project;
-
-    @Column(name = "personal_learning", nullable = false)
-    private String personLearning;
-
-    @Column(name = "details", nullable = false)
-    private String details;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_daily_report", joinColumns = @JoinColumn(name = "daily_report_id"), inverseJoinColumns = @JoinColumn(name = "report_id"))
+    private List<Report> reports;
 
     @Column(name = "is_completed")
     private boolean isCompleted;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
 
     @Column(name = "day_off")
     private boolean isDayOff;

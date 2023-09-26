@@ -7,12 +7,10 @@ import java.util.List;
 @Data
 public class DailyReportDto extends BaseDto{
 
-   private  Long id;
-    private  int hours;
+     private  Long id;
     private int minutes;
-    private List<ProjectDto>  project;
-    private String details;
+    private List<ReportDto>  reports;
     private boolean isCompleted;
     private  UserShortDto user;
-    private String personLearning;
+
 }
