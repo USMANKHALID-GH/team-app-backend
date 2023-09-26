@@ -33,7 +33,7 @@ public class ReportJobs {
     }
 
 
-    @Scheduled(cron = CronConstant.EVERY_MINUTE)
+    @Scheduled(cron = CronConstant.EVERY_MONDAY)
     @SchedulerLock(name = "startNewDay")
     private  void  startNewDay(){
         log.info("setting dayoff to false");
