@@ -33,11 +33,7 @@ public class CuationServiceImpl implements CautionService {
     @Autowired
     private ParameterService parameterService;
 
-    @Autowired
-    private TeamService teamService;
 
-    @Autowired
-    private DailyReportService reportService;
 
     @Override
     public List<Caution> findAll() {
@@ -45,7 +41,7 @@ public class CuationServiceImpl implements CautionService {
     }
 
     @Override
-    public void sendCautionToDailyReport(List<Long> userList) {
+    public void sendCautionToMultipleUsers(List<Long> userList) {
 
         Caution caution=new Caution();
         Parameter parameter=parameterService.getCautionParameter();
@@ -61,7 +57,7 @@ public class CuationServiceImpl implements CautionService {
     }
 
     @Override
-    public void sendPersonalCautionToUser(CautionDto cautionDto, long userId) {
+    public void sendCautionToSingleUser(CautionDto cautionDto, long userId) {
         User issuedBy=userService.findCurrentUser();
         User to=userService.findById(userId);
         if(StringUtils.isEmpty(cautionDto.getName())){

@@ -33,14 +33,14 @@ public class CautionController {
 
 
     @PostMapping("/admin/caution")
-    public ResponseEntity<BaseResponseDto> save(@RequestParam("userList") List<Long>  userList){
-        service.sendCautionToDailyReport(userList);
+    public ResponseEntity<BaseResponseDto> sendToMultipleUsers(@RequestParam("userList") List<Long>  userList){
+        service.sendCautionToMultipleUsers(userList);
         return ResponseEntity.ok(BaseResponseDto.builder().message("Caution basarili bir sekilde gonderilmistir").build());}
 
 
     @PostMapping("/admin/caution/user/{userId}")
     public ResponseEntity<BaseResponseDto> sendPersonalCautionToUser(@RequestBody CautionDto cautionDto, @PathVariable long userId){
-        service.sendPersonalCautionToUser(cautionDto, userId);
+        service.sendCautionToSingleUser(cautionDto, userId);
         return ResponseEntity.ok(BaseResponseDto.builder().message("Caution basarili bir sekilde gonderilmistir").build());}
 
 
@@ -50,7 +50,7 @@ public class CautionController {
         return ResponseEntity.ok(mapper.toDto(service.findByCurrentUser()));}
 
 
-    @DeleteMapping("/admin/caution/{id}")
+    @DeleteMapping("/admin/caution/{id}/captain")
     public ResponseEntity<BaseResponseDto> deleteByCaptain(@PathVariable long id){
         service.deleteByCaptain(id);
         return ResponseEntity.ok(BaseResponseDto.builder().message("Caution Basarili bir sekilde silinmistir").build());}

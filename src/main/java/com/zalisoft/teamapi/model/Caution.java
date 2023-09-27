@@ -46,4 +46,6 @@ public class Caution extends AbstractModel{
     @ManyToMany
     @JoinTable(name = "caution_user",joinColumns = @JoinColumn(name = "caution_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> user;
+
+//     must not come from the parameter table and either name or message to be remove.  one caution to one user.
 }

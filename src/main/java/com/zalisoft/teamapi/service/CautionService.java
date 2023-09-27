@@ -10,9 +10,9 @@ public interface CautionService {
 
     List<Caution>  findAll();
 
-    void sendCautionToDailyReport(List<Long> userList);
+    void sendCautionToMultipleUsers(List<Long> userList);
 
-    void sendPersonalCautionToUser(CautionDto cautionDto, long userId);
+    void sendCautionToSingleUser(CautionDto cautionDto, long userId);
 
 
 
