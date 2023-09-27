@@ -29,18 +29,12 @@ public class CaptainReport extends AbstractModel{
     @JoinColumn(name = "captain_id",nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id",nullable = false)
-    private Project project;
+    @Column(name = "minutes" )
+    private int minutes;
 
-    @Column(name = "hours")
-    private Long hours;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "captain_evaluation_reports")
+    private List<Report> reports;
 
-    @Column(name = "number_of_days")
-    private Long numberOfDays;
-
-
-    @Column(name = "description", nullable = false,columnDefinition = "TEXT")
-    private String description;
 
 }

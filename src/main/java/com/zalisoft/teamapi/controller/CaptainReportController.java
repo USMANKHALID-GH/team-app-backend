@@ -29,9 +29,9 @@ public class CaptainReportController {
     }
 
 
-    @PostMapping("/captain-report/project/{projectId}")
-    public ResponseEntity<BaseResponseDto> save(@RequestBody CaptainReportDto captainReportDto, @PathVariable long projectId){
-        service.save(captainReportDto,projectId);
+    @PostMapping("/captain-report")
+    public ResponseEntity<BaseResponseDto> save(@RequestBody CaptainReportDto captainReportDto){
+        service.save(captainReportDto);
         return ResponseEntity.ok(BaseResponseDto.builder().message("Captain report basarili bir sekilde kaydedilmistir").build());
     }
 

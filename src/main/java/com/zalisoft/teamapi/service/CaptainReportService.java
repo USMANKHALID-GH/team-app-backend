@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface CaptainReportService {
 
-    CaptainReport  save(CaptainReportDto captainReportDto, long projectId);
+    CaptainReport  save(CaptainReportDto captainReportDto);
 
     CaptainReport findById(long id);
 
