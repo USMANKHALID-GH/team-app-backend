@@ -25,7 +25,7 @@ public class ReportJobs {
 
 
 
-    @Scheduled(cron = CronConstant.EVERY_MINUTE)
+    @Scheduled(cron = CronConstant.EVERY_NIGHT_AT_ONE)
     @SchedulerLock(name = "sendCautionToUnsentReport")
     private  void sendCautionToUnsentReport() throws MessagingException, UnsupportedEncodingException {
         log.info("inside: {}","sendCautionToUnsentReport");
