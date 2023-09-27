@@ -51,8 +51,14 @@ public class TeamServiceImpl implements TeamService {
         User captain=userService.findCurrentUser();
         Team team= findById(id);
         if(captain.getId().equals(team.getCaptain().getId())){
-            team.getMembers().add(userService.findById(id));
-             return teamRepository.save(team);
+            if (!teamRepository.existsByMembersContains(userService.findById(memberId))){
+                team.getMembers().add(userService.findById(memberId));
+
+            }
+            else {
+                throw new BusinessException(ResponseMessageEnum. BACK_TEAM_MSG_005);
+            }
+            return teamRepository.save(team);
         }
         else
             throw  new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_002);}

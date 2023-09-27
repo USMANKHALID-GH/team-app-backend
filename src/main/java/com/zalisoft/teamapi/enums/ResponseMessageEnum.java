@@ -36,6 +36,7 @@ public enum ResponseMessageEnum {
     BACK_TEAM_MSG_002("back.team.msg.002", "Team member atanma sadece captain yapiliyor"),
     BACK_TEAM_MSG_003("back.team.msg.003", "Team  mevcut degildir"),
     BACK_TEAM_MSG_004("back.team.msg.004", "Team member cikarilma sadece captain yapiliyor"),
+    BACK_TEAM_MSG_005("back.team.msg.005", "Team member mevcuttur"),
 
     BACK_TASK_MSG_001("back.task.msg.001", "Task isim  girilmeli"),
     BACK_TASK_MSG_002("back.task.msg.002", "Task description girilmeli"),
@@ -46,9 +47,10 @@ public enum ResponseMessageEnum {
 
 
     BACK_REPORT_MSG_001("back.report.msg.001", "Report  mevcut degildir"),
-    BACK_REPORT_MSG_002("back.report.msg.002", "Report  hours degildir"),
-    BACK_REPORT_MSG_003("back.report.msg.003", "Report  details degildir"),
+    BACK_REPORT_MSG_002("back.report.msg.002", "Report  minute boş bırakılmaz"),
+    BACK_REPORT_MSG_003("back.report.msg.003", "Report  details boş bırakılmaz"),
     BACK_REPORT_MSG_004("back.report.msg.004", "Haftada bir kere izin aliniyor"),
+    BACK_REPORT_MSG_005("back.report.msg.005", "Gunde bir kere raport atilir"),
 
     BACK_PARAMETER_MSG_001("back.parameter.msg.001", "Parameter key mevcut degil"),
     BACK_PARAMETER_MSG_002("back.parameter.msg.003", "Parameter key girilmeli"),
@@ -70,9 +72,9 @@ public enum ResponseMessageEnum {
     BACK_PERMISSION_MSG_006("back.permission.msg.006", "Bu permission islem sadece current user yapilir"),
 
 
-    BACK_CAPTAIN_REPORT_MSG_001("back.capatin.report.msg.001", "Captain report  description bos birakilmaz"),
+    BACK_CAPTAIN_REPORT_MSG_001("back.capatin.report.msg.001", "Gunde bir kere raport atilir"),
 
-    BACK_CAPTAIN_REPORT_MSG_002("back.capatin.report.msg.002", "Captain mevcut degildir"),
+    BACK_CAPTAIN_REPORT_MSG_002("back.capatin.report.msg.002", "Captain report mevcut degildir"),
     BACK_CAPTAIN_REPORT_MSG_003("back.capatin.report.msg.003", "Bu islem sadece captain yada project manager yapilmaktadir"),
 
 
