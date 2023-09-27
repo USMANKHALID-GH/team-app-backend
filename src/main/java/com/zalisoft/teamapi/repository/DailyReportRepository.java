@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +62,10 @@ public interface DailyReportRepository extends JpaRepository<DailyReport, Long> 
     @Query(value = "UPDATE daily_report  SET day_off = false WHERE day_off = true AND deleted = false", nativeQuery = true)
     void updateIsDayOffToFalse();
 
+
+    @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END FROM DailyReport e " +
+            " WHERE FUNCTION('DATE', e.createdDate) = :today  AND e.user.id=:id")
+    boolean existsByCreatedDate(LocalDate today,long id);
 
 
 

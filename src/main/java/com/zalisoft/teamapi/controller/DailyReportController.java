@@ -92,5 +92,11 @@ public class DailyReportController {
         return ResponseEntity.ok(BaseResponseDto.builder().message("Day-Off basarili bir sekilde alinmis").build());
     }
 
+    @PutMapping("/public/report/{id}")
+    public ResponseEntity<BaseResponseDto>  updateByCurrentUser(@RequestBody DailyReportDto dailyReportDto, @PathVariable long id){
+        service.update(dailyReportDto,id);
+        return ResponseEntity.ok(BaseResponseDto.builder().message("Day-Off basarili bir sekilde alinmis").build());
+    }
+
 
 }

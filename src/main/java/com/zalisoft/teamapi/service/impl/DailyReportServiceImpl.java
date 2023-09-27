@@ -11,17 +11,19 @@ import com.zalisoft.teamapi.service.*;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 @Slf4j
@@ -34,7 +36,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     private DailyReportRepository dailyReportRepository;
 
     @Autowired
-    private ProjectService projectService;
+    private ReportService reportService;
 
     @Autowired
     private ReportDtoMapper reportDtoMapper;
@@ -83,6 +85,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     @Override
     public DailyReport save(DailyReportDto dailyReportDto) {
         User user =userService.findCurrentUser();
+        if(!dailyReportRepository.existsByCreatedDate(LocalDate.now(),user.getId())){
         DailyReport dailyReport =new DailyReport();
         if(ObjectUtils.isEmpty(Integer.valueOf(dailyReportDto.getMinutes()))){
             throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_002);
@@ -92,15 +95,9 @@ public class DailyReportServiceImpl implements DailyReportService {
             List<Report> reports=dailyReportDto.getReports()
                    .stream()
                    .map(s-> {
-                       if(StringUtils.isEmpty(s.getDetails())){
-                           throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_003);
-                       }
-                       if(!ObjectUtils.isEmpty(s.getProjectId())){
-                         projectService.findById(s.getProjectId());
-                       }
-                       return s;
+                      reportService.validateReportToBesave(s);
+                       return reportDtoMapper.toEntity(s);
                    })
-                   .map(r->reportDtoMapper.toEntity(r))
                    .collect(Collectors.toList());
 
              dailyReport.setReports(reports);
@@ -111,6 +108,10 @@ public class DailyReportServiceImpl implements DailyReportService {
         dailyReport.setUser(user);
         dailyReport.setCompleted(checkIfIsMoreThan8hours(dailyReport.getMinutes()));
         return dailyReportRepository.save(dailyReport);
+        }
+
+        else
+            throw  new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_005);
     }
 
 
@@ -119,24 +120,35 @@ public class DailyReportServiceImpl implements DailyReportService {
         dailyReportRepository.delete(findById(id));
     }
 
+
+
     @Override
-    public void update(DailyReportDto dto, long id) {
-        User user=userService.findCurrentUser();
-        DailyReport dailyReport =findById(id);
-        if(user.getId().equals(dailyReport.getUser().getId())){
-            throw   new BusinessException(ResponseMessageEnum.BACK_CURRENT_USER_MSG_001);
+    public void update(DailyReportDto dailyReportDto, long id) {
+        User user = userService.findCurrentUser();
+        DailyReport dailyReport = findById(id);
+
+        if (user.getId().equals(dailyReport.getUser().getId())) {
+            if (!ObjectUtils.isEmpty(dailyReportDto.getMinutes())) {
+                dailyReport.setMinutes(dailyReportDto.getMinutes());
+                dailyReport.setCompleted(checkIfIsMoreThan8hours(dailyReport.getMinutes()));
+            }
+            List<ReportDto> reportDtos = dailyReportDto.getReports();
+
+            if (!CollectionUtils.isEmpty(dailyReportDto.getReports())) {
+                List<Report> reports = new ArrayList<>();
+                for (ReportDto reportDto : reportDtos) {
+                    reports.add(reportDtoMapper.toEntity(reportService.validateReportForUpdate(reportDto)));
+                }
+                dailyReport.setReports(reports);
+            }
+
+            dailyReportRepository.save(dailyReport);
+            return;
         }
-        if(!ObjectUtils.isEmpty(Integer.valueOf(dto.getMinutes()))){
-            dailyReport.setMinutes(dto.getMinutes());
-        }
 
-
-        dailyReport.setCompleted(checkIfIsMoreThan8hours(dailyReport.getMinutes()));
-
-
-
-        dailyReportRepository.save(dailyReport);
+        throw new BusinessException(ResponseMessageEnum.BACK_CURRENT_USER_MSG_001);
     }
+
 
     @Override
     public void setDayOff() {
@@ -166,4 +178,6 @@ public class DailyReportServiceImpl implements DailyReportService {
         LocalTime inputTime = LocalTime.of(mins / 60, mins % 60);
         return inputTime.isAfter(LocalTime.of(parameterService.getDailyReportLimit(), 0));
     }
+
+
 }
