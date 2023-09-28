@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Set;
 
 import static com.zalisoft.teamapi.util.SecurityUtils.getCurrentUsername;
 
@@ -94,8 +95,9 @@ public class UserServiceImpl implements UserService {
             throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_002);
         }
 
-        log.info("address: {}", userRegisterDto.getAddress().toString());
+
         user.setActive(true);
+        user.setRoles(Set.of(roleService.findByName(UserType.USER.name())));
         user.setEmail(userRegisterDto.getEmail());
         user.setLastName(userRegisterDto.getLastName());
         user.setFirstName(userRegisterDto.getFirstName());
@@ -110,6 +112,7 @@ public class UserServiceImpl implements UserService {
         user.setImage(userRegisterDto.getImage());
         user.setTitle(userRegisterDto.getTitle());
         return userRepository.save(user);
+
 
 
     }

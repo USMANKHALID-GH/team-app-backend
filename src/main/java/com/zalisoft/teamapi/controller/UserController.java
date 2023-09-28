@@ -6,6 +6,7 @@ import com.zalisoft.teamapi.mapper.UserRegisterMapper;
 import com.zalisoft.teamapi.model.Role;
 import com.zalisoft.teamapi.service.RoleService;
 import com.zalisoft.teamapi.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequestMapping("/api")
 public class UserController {
 
