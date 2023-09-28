@@ -29,6 +29,6 @@ public interface CaptainReportRepository extends JpaRepository<CaptainReport,Lon
             "  FUNCTION('DATE', e.createdDate) = :today AND e.user.id=:id")
     boolean existsByCreatedDate(LocalDate today,long id);
 
-    @Query("from  CaptainReport  c where  FUNCTION('DATE',c.createdDate)=:date AND c.user.id=:id")
-    List<CaptainReport>  find(LocalDate date,long id);
+
+
 }

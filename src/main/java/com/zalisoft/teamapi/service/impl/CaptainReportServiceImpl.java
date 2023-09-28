@@ -57,15 +57,16 @@ public class CaptainReportServiceImpl implements CaptainReportService {
 
     @Override
     public CaptainReport save(CaptainReportDto captainReportDto) {
-        DayOfWeek today=LocalDate.now().getDayOfWeek();
-        log.info("today date: {}",today.name());
+        LocalDate localDate=LocalDate.now();
+        DayOfWeek today=localDate.getDayOfWeek();
+
         if(!Arrays.stream(GeneralConstant.REPORT_DAYS_FOR_CAPTAIN).anyMatch(s->s.equals(today.name()))){
             throw new BusinessException(ResponseMessageEnum. BACK_CAPTAIN_REPORT_MSG_004);
         }
 
         User user=userService.findCurrentUser();
 
-        if(!captainReportRepository.existsByCreatedDate(LocalDate.now(),user.getId())) {
+        if(!captainReportRepository.existsByCreatedDate(localDate,user.getId())) {
             CaptainReport captainReport = new CaptainReport();
             if (!CollectionUtils.isEmpty(captainReportDto.getReports())) {
                 List<Report> reports = captainReportDto.getReports()
