@@ -67,6 +67,7 @@ public class RoleServiceImpl implements RoleService {
     public Role update(long id, RoleDto roleDto) {
         Role role=findById(id);
         if(StringUtils.isNotEmpty(roleDto.getName())){
+            isUnique(roleDto.getName());
             role.setName(roleDto.getName());
         }
         if(!CollectionUtils.isEmpty(roleDto.getPrivileges())){
@@ -75,19 +76,32 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.save(role);
     }
 
-//    @Override
-//    public Role addPrivilege(long id, long pId) {
-//        Role role=findById(id);
-//
-//        Privilege privilege=privilegeService.findById(id);
-//
-//        role.setPrivileges(Set.of(privilege));
-//
-//
-//        roleRepository.save(role);
-//        return role;
-//
-//    }
+    @Override
+    public Role addPrivilege(long id, long pId) {
+        Role role=findById(id);
+        log.info("Role : {}",role.toString());
+
+        Privilege privilege=privilegeService.findById(pId);
+        log.info("privilege: {}", privilege.toString());
+        Set<Privilege> privilegeSet=role.getPrivileges();
+        privilegeSet.add(privilege);
+
+        role.setPrivileges(privilegeSet);
+
+
+        roleRepository.save(role);
+        return role;
+
+    }
+
+    @Override
+    public Role removePrivilege(long id, long pId) {
+        Role role=findById(id);
+        Privilege privilege=privilegeService.findById(pId);
+        Set<Privilege> privileges=role.getPrivileges();
+        privileges.remove(privilege);
+         return roleRepository.save(role);
+    }
 
 
     @Override
@@ -112,7 +126,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findByName(String name) {
-      isUnique(name);
      return roleRepository.findByNameIgnoreCase(name);
     }
 

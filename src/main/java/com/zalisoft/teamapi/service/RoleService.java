@@ -25,6 +25,10 @@ public interface RoleService {
 
     Role findByName(String name);
 
+    Role addPrivilege(long id, long pId);
+
+    Role  removePrivilege(long id ,long pId);
+
 
 
 }

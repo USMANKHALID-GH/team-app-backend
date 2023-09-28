@@ -51,9 +51,28 @@ public class RoleController {
     }
 
 
+    @GetMapping("/role/name/{name}")
+    public ResponseEntity<RoleDto>  findByName(@PathVariable String name){
+        return ResponseEntity.ok(mapper.toDto(service.findByName(name)));
+    }
+
+
+
     @GetMapping("/role/{id}/privilege")
     public ResponseEntity<List<PrivilegeDto>>  findPrivilegeByRoleId(@PathVariable  long id){
         return ResponseEntity.ok(service.findPrivilegeByRoleId(id));
+    }
+
+
+    @PutMapping("/role/{id}/privilege/{pId}/add")
+    public  ResponseEntity<RoleDto>  addPrivilege(@PathVariable long id, @PathVariable long pId){
+        return ResponseEntity.ok(mapper.toDto(service.addPrivilege(id,pId)));
+    }
+
+
+    @PutMapping("/role/{id}/privilege/{pId}/remove")
+    public  ResponseEntity<RoleDto>  removePrivilege(@PathVariable long id, @PathVariable long pId){
+        return ResponseEntity.ok(mapper.toDto(service.removePrivilege(id,pId)));
     }
 
 
