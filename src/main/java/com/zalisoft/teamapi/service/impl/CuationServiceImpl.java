@@ -90,7 +90,8 @@ public class CuationServiceImpl implements CautionService {
 
     @Override
     public List<User> countUsersWithMoreThanTheGivenOccurrences() {
-        return cautionRepository.countUsersWithMoreThan3Caution(Long.parseLong(String.valueOf(parameterService.getCautionLimit())));
+        List<Long> users=cautionRepository.findUsersWhoExceedCautionLimit(parameterService.getCautionLimit());
+        return  userService.findAllByListOfId(users);
     }
 
     @Override
