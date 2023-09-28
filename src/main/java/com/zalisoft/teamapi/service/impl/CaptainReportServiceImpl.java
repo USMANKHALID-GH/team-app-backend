@@ -1,5 +1,6 @@
 package com.zalisoft.teamapi.service.impl;
 
+import com.zalisoft.teamapi.constant.GeneralConstant;
 import com.zalisoft.teamapi.dto.CaptainReportDto;
 import com.zalisoft.teamapi.dto.ReportDto;
 import com.zalisoft.teamapi.enums.ResponseMessageEnum;
@@ -23,10 +24,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +57,14 @@ public class CaptainReportServiceImpl implements CaptainReportService {
 
     @Override
     public CaptainReport save(CaptainReportDto captainReportDto) {
+        DayOfWeek today=LocalDate.now().getDayOfWeek();
+        log.info("today date: {}",today.name());
+        if(!Arrays.stream(GeneralConstant.REPORT_DAYS_FOR_CAPTAIN).anyMatch(s->s.equals(today.name()))){
+            throw new BusinessException(ResponseMessageEnum. BACK_CAPTAIN_REPORT_MSG_004);
+        }
+
         User user=userService.findCurrentUser();
+
         if(!captainReportRepository.existsByCreatedDate(LocalDate.now(),user.getId())) {
             CaptainReport captainReport = new CaptainReport();
             if (!CollectionUtils.isEmpty(captainReportDto.getReports())) {

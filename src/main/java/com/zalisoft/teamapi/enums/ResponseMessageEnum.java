@@ -76,7 +76,7 @@ public enum ResponseMessageEnum {
 
     BACK_CAPTAIN_REPORT_MSG_002("back.capatin.report.msg.002", "Captain report mevcut degildir"),
     BACK_CAPTAIN_REPORT_MSG_003("back.capatin.report.msg.003", "Bu islem sadece captain yada project manager yapilmaktadir"),
-
+    BACK_CAPTAIN_REPORT_MSG_004("back.capatin.report.msg.004", "Captain report sadece MONDAY,TUESDAY,THURSDAY rapor atiliyor"),
 
     BACK_IMAGE_MSG_001("back.image.001","Image {.jpg, .jpeg, .png, .gif, .bmp, .tiff}"),
 
