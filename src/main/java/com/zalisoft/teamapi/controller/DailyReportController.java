@@ -3,8 +3,10 @@ package com.zalisoft.teamapi.controller;
 import com.zalisoft.teamapi.dto.BaseResponseDto;
 import com.zalisoft.teamapi.dto.DailyReportDto;
 import com.zalisoft.teamapi.dto.UserDto;
+import com.zalisoft.teamapi.dto.UserShortDto;
 import com.zalisoft.teamapi.mapper.DailyReportMapper;
 import com.zalisoft.teamapi.mapper.UserDtoMapper;
+import com.zalisoft.teamapi.mapper.UserShortDtoMapper;
 import com.zalisoft.teamapi.service.DailyReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +28,8 @@ public class DailyReportController {
     private DailyReportMapper mapper;
 
     @Autowired
-    private UserDtoMapper userDtoMapper;
+    private UserShortDtoMapper userDtoMapper;
+
 
 
     @GetMapping("/admin/task")
@@ -62,7 +65,7 @@ public class DailyReportController {
 
 
     @GetMapping("/admin/report/captain/{tc}/unsent")
-    public ResponseEntity<List<UserDto>> findUsersUnsentReport(@PathVariable String tc){
+    public ResponseEntity<List<UserShortDto>> findUsersUnsentReport(@PathVariable String tc){
         return ResponseEntity.ok((userDtoMapper.toDto(service.findUsersUnsentReport(tc))));
     }
 
@@ -81,7 +84,7 @@ public class DailyReportController {
 
 
     @GetMapping("/admin/report/day-off-users")
-    public ResponseEntity<List<UserDto>> findUsersOnDayOff(){
+    public ResponseEntity<List<UserShortDto>> findUsersOnDayOff(){
         return ResponseEntity.ok((userDtoMapper.toDto(service.findUsersOnDayOff())));
     }
 
