@@ -66,7 +66,7 @@ public class TaskController {
     @DeleteMapping("/admin/task/{id}")
     public ResponseEntity<BaseResponseDto>  delete(@PathVariable long id){
         service.delete(id);
-        return ResponseEntity.ok(BaseResponseDto.builder().message("Task Basarili bir sekilde silinmistir").build());
+        return ResponseEntity.ok(BaseResponseDto.builder().message("Task basarili bir sekilde silinmistir").build());
     }
 
 
