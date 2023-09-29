@@ -9,11 +9,14 @@ import com.zalisoft.teamapi.dto.UserRegisterDto;
 import com.zalisoft.teamapi.enums.ResponseMessageEnum;
 import com.zalisoft.teamapi.exception.BusinessException;
 import com.zalisoft.teamapi.mapper.UserRegisterMapper;
+import com.zalisoft.teamapi.service.FileSystemService;
 import com.zalisoft.teamapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,9 +35,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public  ResponseEntity<UserRegisterDto>  register(@RequestParam(value = "userDto") String userDto
-                                                      ,@RequestParam(name = "image",required = false) MultipartFile file) {
+                                                      ,@RequestParam(name = "image",required = false) MultipartFile file) throws IOException {
         UserRegisterDto userRegisterDto=convertStringToJson(userDto);
-        return ResponseEntity.ok((mapper.toDto(service.register(userRegisterDto))));
+
+        return ResponseEntity.ok((mapper.toDto(service.register(userRegisterDto,file))));
     }
 
 
