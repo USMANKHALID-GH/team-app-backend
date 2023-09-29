@@ -10,10 +10,10 @@ public enum ResponseMessageEnum {
     BACK_FILE_MSG_002("back.file.msg.002", "File silinirken hata alinmistir."),
 
     BACK_USER_MSG_001("back.user.msg.001", "Kullanıcı bulunamamıştır."),
-    BACK_USER_MSG_002("back.user.msg.002", "Bu Telefon Sistemde Kayıtlıdır."),
+    BACK_USER_MSG_002("back.user.msg.002", "Kullanıcı Telefon Sistemde Kayıtlıdır."),
     BACK_USER_MSG_003("back.user.msg.003", "Bu Mail Sistemde Kayıtlıdır."),
     BACK_USER_MSG_004("back.user.msg.004", "Bu kullanıcı aktif değildir."),
-    BACK_USER_MSG_005("back.user.msg.005", "Bu Mail girilmeli."),
+    BACK_USER_MSG_005("back.user.msg.005", "Kullanıcı Mail girilmeli."),
     BACK_USER_MSG_06("back.user.msg.006", "Email veya şifre hatalı."),
     BACK_USER_MSG_007("back.user.msg.007", "TC kimlik numarası girilmelir."),
     BACK_USER_MSG_008("back.user.msg.008", "Kullanici isim girilmeli."),
@@ -53,11 +53,11 @@ public enum ResponseMessageEnum {
     BACK_TASK_MSG_006("back.task.msg.006", "Sadece project yada captain manager degisik yapabilir"),
 
 
-    BACK_REPORT_MSG_001("back.report.msg.001", "Report  mevcut degildir"),
-    BACK_REPORT_MSG_002("back.report.msg.002", "Report  minute boş bırakılmaz"),
-    BACK_REPORT_MSG_003("back.report.msg.003", "Report  details boş bırakılmaz"),
-    BACK_REPORT_MSG_004("back.report.msg.004", "Haftada bir kere izin aliniyor"),
-    BACK_REPORT_MSG_005("back.report.msg.005", "Gunde bir kere raport atilir"),
+    BACK_DAILY_REPORT_MSG_001("back.daıly.report.msg.001", "Report  mevcut degildir"),
+    BACK_DAILY_REPORT_MSG_002("back.daıly.report.msg.002", "Report  minute boş bırakılmaz"),
+    BACK_DAILY_REPORT_MSG_003("back.daıly.report.msg.003", "Report  details boş bırakılmaz"),
+    BACK_DAILY_REPORT_MSG_004("back.daıly.report.msg.004", "Haftada bir kere izin aliniyor"),
+    BACK_DAILY_REPORT_MSG_005("back.daıly.report.msg.005", "Gunde bir kere raport atilir"),
 
     BACK_PARAMETER_MSG_001("back.parameter.msg.001", "Parameter key mevcut degil"),
     BACK_PARAMETER_MSG_002("back.parameter.msg.003", "Parameter key girilmeli"),
@@ -80,7 +80,6 @@ public enum ResponseMessageEnum {
 
 
     BACK_CAPTAIN_REPORT_MSG_001("back.capatin.report.msg.001", "Gunde bir kere raport atilir"),
-
     BACK_CAPTAIN_REPORT_MSG_002("back.capatin.report.msg.002", "Captain report mevcut degildir"),
     BACK_CAPTAIN_REPORT_MSG_003("back.capatin.report.msg.003", "Bu islem sadece captain yada project manager yapilmaktadir"),
     BACK_CAPTAIN_REPORT_MSG_004("back.capatin.report.msg.004", "Captain report sadece MONDAY,TUESDAY,THURSDAY rapor atiliyor"),

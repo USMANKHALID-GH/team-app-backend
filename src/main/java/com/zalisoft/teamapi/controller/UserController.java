@@ -68,7 +68,7 @@ public class UserController {
     @DeleteMapping("/public/user/{id}")
     public ResponseEntity<BaseResponseDto>  delete(@PathVariable long id){
         service.deleteByAdmin(id);
-        return ResponseEntity.ok(BaseResponseDto.builder().message("User Basarili bir sekilde silinmistir").build());
+        return ResponseEntity.ok(BaseResponseDto.builder().message("User basarili bir sekilde silinmistir").build());
     }
 
 

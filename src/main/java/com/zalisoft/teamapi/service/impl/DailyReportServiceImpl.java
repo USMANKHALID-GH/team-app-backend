@@ -58,7 +58,7 @@ public class DailyReportServiceImpl implements DailyReportService {
     @Override
     public DailyReport findById(long id) {
         return dailyReportRepository.findById(id)
-                .orElseThrow(()-> new BusinessException(ResponseMessageEnum. BACK_REPORT_MSG_001));
+                .orElseThrow(()-> new BusinessException(ResponseMessageEnum.BACK_DAILY_REPORT_MSG_001));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         if(!dailyReportRepository.existsByCreatedDate(LocalDate.now(),user.getId())){
         DailyReport dailyReport =new DailyReport();
         if(ObjectUtils.isEmpty(Integer.valueOf(dailyReportDto.getMinutes()))){
-            throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_002);
+            throw new BusinessException(ResponseMessageEnum.BACK_DAILY_REPORT_MSG_002);
         }
 
         if(!CollectionUtils.isEmpty(dailyReportDto.getReports())){
@@ -111,7 +111,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         }
 
         else
-            throw  new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_005);
+            throw  new BusinessException(ResponseMessageEnum.BACK_DAILY_REPORT_MSG_005);
     }
 
 
@@ -159,7 +159,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         dailyReport.setDayOff(true);
         dailyReportRepository.save(dailyReport);}
         else
-            throw  new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_004);
+            throw  new BusinessException(ResponseMessageEnum.BACK_DAILY_REPORT_MSG_004);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ReportServiceImpl implements ReportService {
     public void validateReportToBesave(ReportDto reportDto) {
 
         if(StringUtils.isEmpty(reportDto.getDetails())){
-            throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_003);
+            throw new BusinessException(ResponseMessageEnum.BACK_DAILY_REPORT_MSG_003);
         }
         if(!ObjectUtils.isEmpty(reportDto.getProjectId())){
             projectService.findById(reportDto.getProjectId());
@@ -34,7 +34,7 @@ public class ReportServiceImpl implements ReportService {
 
         }
         if (ObjectUtils.isEmpty(reportDto.getDetails())){
-            throw new BusinessException(ResponseMessageEnum.BACK_REPORT_MSG_003);
+            throw new BusinessException(ResponseMessageEnum.BACK_DAILY_REPORT_MSG_003);
         }
         return reportDto;
     }
