@@ -10,8 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.zalisoft.teamapi.util.General.convertToJson;
 
 @RestController
 @Slf4j
@@ -76,6 +80,24 @@ public class UserController {
     }
 
 
+
+    @PutMapping("/public/user")
+    public ResponseEntity<BaseResponseDto> updateByCurrentUser(@RequestParam("userDto") String userDto,
+                                                  @RequestParam(value = "image",required = false)MultipartFile file) throws IOException {
+        service.updateByCurrentUser(convertToJson(userDto,UserRegisterDto.class),file);
+        return  ResponseEntity.ok(BaseResponseDto.builder().message("User basarili bir sekilde gunlenmistir").build());
+    }
+
+
+    @PutMapping("/public/user/{id}")
+    public ResponseEntity<BaseResponseDto> updateByAdmin(
+                                                  @RequestParam("userDto") String userDto,
+                                                  @PathVariable long id,
+                                                  @RequestParam(value = "image",required = false)MultipartFile file)
+                                                  throws IOException {
+        service.updateByAdmin(id,convertToJson(userDto,UserRegisterDto.class),file);
+        return  ResponseEntity.ok(BaseResponseDto.builder().message("User basarili bir sekilde gunlenmistir").build());
+    }
 
 
 

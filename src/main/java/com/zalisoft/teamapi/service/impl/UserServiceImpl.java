@@ -10,6 +10,7 @@ import com.zalisoft.teamapi.model.Role;
 import com.zalisoft.teamapi.model.User;
 import com.zalisoft.teamapi.repository.UserRepository;
 import com.zalisoft.teamapi.security.jwt.TokenProvider;
+import com.zalisoft.teamapi.service.FileSystemService;
 import com.zalisoft.teamapi.service.PermissionService;
 import com.zalisoft.teamapi.service.RoleService;
 import com.zalisoft.teamapi.service.UserService;
@@ -26,8 +27,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -57,15 +60,17 @@ public class UserServiceImpl implements UserService {
     private PermissionService permissionService;
 
 
+    @Autowired
+    private FileSystemService fileSystemService;
+
     @Override
     public User findOneByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(()->new BusinessException(ResponseMessageEnum.BACK_USER_MSG_001)) ;
     }
 
     @Override
-    public User register(UserRegisterDto userRegisterDto) {
+    public User register(UserRegisterDto userRegisterDto,  MultipartFile file) throws IOException {
         User user=new  User();
-
         if(StringUtils.isEmpty(userRegisterDto.getTc())){
             throw  new BusinessException(ResponseMessageEnum.BACK_USER_MSG_007);
         }
@@ -95,6 +100,8 @@ public class UserServiceImpl implements UserService {
             throw  new BusinessException(ResponseMessageEnum. BACK_USER_MSG_002);
         }
 
+        String imageUrl=fileSystemService.saveImage(file);
+        log.info("image url: {}", imageUrl);
 
         user.setActive(true);
         user.setRoles(Set.of(roleService.findByName(UserType.USER.name())));
@@ -109,7 +116,7 @@ public class UserServiceImpl implements UserService {
         user.setUserType(UserType.USER);
         user.setAddress(userRegisterDto.getAddress());
         user.setExperience(userRegisterDto.getExperience());
-        user.setImage(userRegisterDto.getImage());
+        user.setImage(imageUrl);
         user.setTitle(userRegisterDto.getTitle());
         return userRepository.save(user);
 
@@ -156,15 +163,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateByAdmin(long id, UserRegisterDto userRegisterDto) {
+    public void updateByAdmin(long id, UserRegisterDto userRegisterDto,MultipartFile file) throws IOException {
         User user=findById(id);
-        update(user,userRegisterDto);
+        update(user,userRegisterDto,file);
     }
 
     @Override
-    public void update(UserRegisterDto userRegisterDto) {
+    public void updateByCurrentUser(UserRegisterDto userRegisterDto, MultipartFile file) throws IOException {
         User user= findCurrentUser();
-        update(user,userRegisterDto);
+        update(user,userRegisterDto,file);
 
     }
 
@@ -177,7 +184,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteByAdmin(long id) {
-        userRepository.delete(findById(id));
+        User user=findById(id);
+        fileSystemService.deleteImage(user.getImage());
+        userRepository.delete(user);
     }
 
     @Override
@@ -216,7 +225,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private void update(User user, UserRegisterDto userRegisterDto){
+    private void update(User user, UserRegisterDto userRegisterDto,MultipartFile file) throws IOException {
         if(StringUtils.isNotEmpty(userRegisterDto.getTitle().name())){
             user.setTitle(userRegisterDto.getTitle());
         }
@@ -228,6 +237,10 @@ public class UserServiceImpl implements UserService {
         }
         if(ObjectUtils.isNotEmpty(userRegisterDto.getAddress())){
              user.setAddress(userRegisterDto.getAddress());
+        }
+
+        if(!ObjectUtils.isEmpty(file)){
+            user.setImage(fileSystemService.saveImage(file));
         }
         userRepository.save(user);
     }

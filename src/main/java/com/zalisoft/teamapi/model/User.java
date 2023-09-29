@@ -54,7 +54,7 @@ public class User  extends AbstractModel{
     @Column(name = "title", length = 20, nullable = false)
     private WorkType title;
 
-    @Column(name = "image_url", length = 20, nullable = false)
+    @Column(name = "image_url", length = 255 ,nullable = false)
     private  String image;
 
     @Column(name = "experience", length = 20, nullable = false)
