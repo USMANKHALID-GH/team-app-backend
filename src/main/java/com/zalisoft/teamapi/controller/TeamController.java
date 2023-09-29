@@ -2,23 +2,33 @@ package com.zalisoft.teamapi.controller;
 
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zalisoft.teamapi.dto.BaseResponseDto;
 import com.zalisoft.teamapi.dto.TeamDto;
+import com.zalisoft.teamapi.dto.UserRegisterDto;
+import com.zalisoft.teamapi.enums.ResponseMessageEnum;
+import com.zalisoft.teamapi.exception.BusinessException;
 import com.zalisoft.teamapi.mapper.TeamMapper;
 
 import com.zalisoft.teamapi.service.TeamService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.zalisoft.teamapi.util.General.convertToJson;
 
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class TeamController {
 
     @Autowired
@@ -28,8 +38,12 @@ public class TeamController {
     private TeamMapper mapper;
 
     @PostMapping("/admin/team/captain/{id}")
-    public ResponseEntity<TeamDto> save(@RequestBody TeamDto teamDto, @PathVariable long id){
-        return ResponseEntity.ok(mapper.toDto(service.save(teamDto,id)));
+    public ResponseEntity<TeamDto> save(@RequestParam("teamDto") String team,
+                                        @PathVariable long id,
+                                        @RequestParam("image")MultipartFile file) throws IOException {
+        TeamDto teamDto=convertToJson(team,TeamDto.class);
+
+        return ResponseEntity.ok(mapper.toDto(service.save(teamDto,id,file)));
     }
 
     @PostMapping("/admin/team/{id}/member/{mId}")

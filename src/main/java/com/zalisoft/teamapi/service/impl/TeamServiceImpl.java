@@ -6,6 +6,7 @@ import com.zalisoft.teamapi.exception.BusinessException;
 import com.zalisoft.teamapi.model.Team;
 import com.zalisoft.teamapi.model.User;
 import com.zalisoft.teamapi.repository.TeamRepository;
+import com.zalisoft.teamapi.service.FileSystemService;
 import com.zalisoft.teamapi.service.TeamService;
 import com.zalisoft.teamapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +32,11 @@ public class TeamServiceImpl implements TeamService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FileSystemService fileSystemService;
+
     @Override
-    public Team save(TeamDto teamDto, long captainId) {
+    public Team save(TeamDto teamDto, long captainId, MultipartFile file) throws IOException {
         if(StringUtils.isEmpty(teamDto.getName())){
             throw new BusinessException(ResponseMessageEnum.BACK_TEAM_MSG_001);
         }
@@ -40,7 +46,7 @@ public class TeamServiceImpl implements TeamService {
         Team team= new Team();
         team.setName(teamDto.getName());
         team.setCaptain(captain);
-        team.setImage(teamDto.getName());
+        team.setImage(fileSystemService.saveImage(file));
         return teamRepository.save(team);
 
     }
@@ -106,7 +112,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void delete(long id) {
-        teamRepository.deleteById(findById(id).getId());}
+        Team team=findById(id);
+        fileSystemService.deleteImage(team.getImage());
+        teamRepository.deleteById(team.getId());}
 
     @Override
     public List<User> findMembersByCaptainTc(String tc) {

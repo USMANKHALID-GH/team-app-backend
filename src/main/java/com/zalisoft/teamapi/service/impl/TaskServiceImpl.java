@@ -10,10 +10,7 @@ import com.zalisoft.teamapi.model.Task;
 import com.zalisoft.teamapi.model.Team;
 import com.zalisoft.teamapi.model.User;
 import com.zalisoft.teamapi.repository.TaskRepository;
-import com.zalisoft.teamapi.service.ProjectService;
-import com.zalisoft.teamapi.service.TaskService;
-import com.zalisoft.teamapi.service.TeamService;
-import com.zalisoft.teamapi.service.UserService;
+import com.zalisoft.teamapi.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -36,10 +35,12 @@ public class TaskServiceImpl implements TaskService {
     private TeamService teamService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private FileSystemService fileSystemService;
 
 
     @Override
-    public Task save(TaskDto taskDto, long userId, long teamId, long projectId) {
+    public Task save(TaskDto taskDto, long userId, long teamId, long projectId, MultipartFile file) throws IOException {
         User userToBeAssigned =userService.findById(userId);
         Team team=teamService.findById(teamId);
         Project project=projectService.findById(projectId);
@@ -64,7 +65,7 @@ public class TaskServiceImpl implements TaskService {
        task.setUser(userToBeAssigned);
        task.setTeam(team);
        task.setDescription(taskDto.getDescription());
-       task.setImage(taskDto.getImage());
+       task.setImage(fileSystemService.saveImage(file));
        task.setDeadline(taskDto.getDeadline());
        task.setProject(project);
        checkIfTeamCaptainOrProjectManager(task);
@@ -106,6 +107,7 @@ public class TaskServiceImpl implements TaskService {
     public void delete(long id) {
        Task task= findById(id);
        checkIfTeamCaptainOrProjectManager(task);
+       fileSystemService.deleteImage(task.getImage());
        taskRepository.delete(task);
     }
 

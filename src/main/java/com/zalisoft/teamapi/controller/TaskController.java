@@ -1,8 +1,12 @@
 package com.zalisoft.teamapi.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zalisoft.teamapi.dto.BaseResponseDto;
 import com.zalisoft.teamapi.dto.TaskDto;
+import com.zalisoft.teamapi.dto.TeamDto;
+import com.zalisoft.teamapi.enums.ResponseMessageEnum;
 import com.zalisoft.teamapi.enums.TaskStatus;
+import com.zalisoft.teamapi.exception.BusinessException;
 import com.zalisoft.teamapi.mapper.TaskMapper;
 import com.zalisoft.teamapi.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +15,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.zalisoft.teamapi.util.General.convertToJson;
 
 @RestController
 @RequestMapping("/api")
@@ -25,8 +33,13 @@ public class TaskController {
     private TaskMapper mapper;
 
     @PostMapping("/admin/task")
-    public ResponseEntity<TaskDto> save(@RequestBody TaskDto taskDto, @RequestParam("userId")long userId, @RequestParam("teamId") long teamId,@RequestParam("projectId") long projectId){
-        return ResponseEntity.ok(mapper.toDto(service.save(taskDto,userId,teamId,projectId)));
+    public ResponseEntity<TaskDto> save(@RequestParam("taskDto") String task,
+                                        @RequestParam("userId")long userId,
+                                        @RequestParam("teamId") long teamId,
+                                        @RequestParam("projectId") long projectId,
+                                        @RequestParam("image")MultipartFile file) throws IOException {
+        TaskDto taskDto=convertToJson(task,TaskDto.class);
+        return ResponseEntity.ok(mapper.toDto(service.save(taskDto,userId,teamId,projectId,file)));
     }
 
     @GetMapping("/public/task/{id}")
@@ -68,5 +81,6 @@ public class TaskController {
     public ResponseEntity<Page<TaskDto>> search(@RequestParam(name = "search",required = false) String search, Pageable pageable){
         return ResponseEntity.ok(new PageImpl<>(mapper.toDto(service.search(search,pageable).getContent())));
     }
+
 
 }

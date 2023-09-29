@@ -2,6 +2,13 @@ package com.zalisoft.teamapi.enums;
 
 public enum ResponseMessageEnum {
     BACK_SYSTEM_ERROR_MSG_001("back.system.error.msg.001", "Sistemsel bir hata alınmıştır, Daha sonra tekrar deneyiniz."),
+
+    BACK_JSON_CONVERTOR_MSG_001("back.user_convertor.msg.001", "Json convertor yaparken hata alinmistir."),
+
+
+    BACK_FILE_MSG_001("back.file.msg.001", "File kaydedilken hala alinmistir."),
+    BACK_FILE_MSG_002("back.file.msg.002", "File silinirken hata alinmistir."),
+
     BACK_USER_MSG_001("back.user.msg.001", "Kullanıcı bulunamamıştır."),
     BACK_USER_MSG_002("back.user.msg.002", "Bu Telefon Sistemde Kayıtlıdır."),
     BACK_USER_MSG_003("back.user.msg.003", "Bu Mail Sistemde Kayıtlıdır."),
