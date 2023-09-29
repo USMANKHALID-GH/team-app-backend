@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static com.zalisoft.teamapi.util.General.convertToJson;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -36,21 +38,13 @@ public class AuthController {
     @PostMapping("/register")
     public  ResponseEntity<UserRegisterDto>  register(@RequestParam(value = "userDto") String userDto
                                                       ,@RequestParam(name = "image",required = false) MultipartFile file) throws IOException {
-        UserRegisterDto userRegisterDto=convertStringToJson(userDto);
+        UserRegisterDto userRegisterDto=convertToJson(userDto, UserRegisterDto.class);
 
         return ResponseEntity.ok((mapper.toDto(service.register(userRegisterDto,file))));
     }
 
 
-    private UserRegisterDto  convertStringToJson(String content)  {
-        try {
-            ObjectMapper  objectMapper=new ObjectMapper();
-            return objectMapper.readValue(content,UserRegisterDto.class);
-        }catch (Exception e){
-            throw new BusinessException(ResponseMessageEnum.BACK_SYSTEM_ERROR_MSG_001);
-        }
 
-    }
 
 
 }
