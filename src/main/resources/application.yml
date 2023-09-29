@@ -26,6 +26,23 @@ spring:
             enable: true
 
 
+gcs:
+  bucket_name: "usmankhalid1"
+  credential: '{
+  "type": "service_account",
+  "project_id": "valid-climber-394012",
+  "private_key_id": "81c92d96aba58a1e40ce1035892f4648a2bbb5c8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDIeNHz8/rclXFG\n0z9VGF4vUG8L8Jety/YSfZvmKEjznwTKPmxCD5iKhKX1bAE7j7QN3cqyo1CxTzs+\nsWOaY5IaBEHZgUDdfUbOeFe3/4RSzPCXkMZVv3JlYjCf4Zx1xp/2IkcgGFmP38NG\nuNQcfsKmMFG146dD4bN6bOSe9PXOPQQ+Z9T25pMEAaa+xj8qD6s89auNUNJBpOD0\nFCNyYzL7OojytgFj5E5tDTEBCWxacoKg24kD1ZQzSl7F/AL99eO/qR4NxUkBIfaG\n1E2+zxD3xlNC1zBVBg6g8xd4rstStzt2mlt9b5b2po9si8h+PBedVSWqocHLwe87\nQjAM7wmNAgMBAAECggEAExVzUSCY8S41wBsEhKaC8siapZ2T5trLdEOqV1ze4vgw\nlcse9aPz7r3FaalMLb4WkxpZvSswV4y2FFgBJhWT9y+QEDNOeDdAig+pNA4aK+Kw\nBZGl28xTiMSx4cpxoUGVATKOqEbBIeHYfk9Ce+ryPy1K3gCLr/nYos8ibWJe0vDP\nW7Nw1QU5OQNNau92Dl+z7vdjMLwg1eveTq/JHPg1s3S6Uu6mFFnjINDZAVoKltM4\nVPV2p/yNg2HuKot+hGaD/HWqA+kl5fl2NiZKdaJQyM3cilzAVVMdzCPTUQuv1tor\nxrnIjWXVzEJvDcVBEo7yZgh2CmteeMB3yLLZHHDn6QKBgQDtzbwqs7NSUNcY58HR\nKxDEP57GFtViH205PrXrAUyNn0WRwjyv3c24JvRZc5yBl6nGZyceYqJgnzofgfWV\nCRFqrz/C6VThaeTHOWiNWCx7xIi/ZyPoyay0hoCKLRQE/ESScvgxXJ5f7V8lw1vw\nT7srHcgxPu96TJOjicsw5oTsVQKBgQDXz845eOanLrfYxKt9N1W3o8z2//FbLxAZ\nbnpt4L0VIO6/avLB94HXEXY7blHjbnpFppYT2FnoHAgPEo1d6Awq5Ude6hUM88QO\nMZwwBB88nQe03FrqT/G/KMDDpmRRObaohqmR7RlDLaqeqHImv6j8IgpKJ9SBiMPF\nMqovGLVgWQKBgFUqXFxytSMi3pYF0k0F/mA6ZLOO0+brWGOrCN3cPj1uMC0ugit9\n5UIxeUtb804aMexjXwgrzPmLrPZBxeEVOU6a6tv0UrjUAuIytjYAwRWmYk8iMiMZ\nryeMEBbsZAIREsHcOPT8tZ+nVG8i0xdyhpa/eMXiQ0Pqjul/3OxrcmltAoGASxA5\nj53wxBeo1JnbeAsmImCz6vms7mVZOS9HIC66Nb4lrKi7VSIMpEyrjhJaIzwLBWzi\n6HYpF2Wgm/V8/Du497aV83qB5eZnu/QfekgEwWVxB8RZTwSNdkrreWHHpMTpNobY\nNix8y/P3U4YNZlLlqQUCBTcDYCa8yTtNHGKAu8kCgYEAn3rnUAs19dHQdOleducY\nanLu+HnWOEPJEMtTuzMyzH2LT5a+oIQptmqD0gZUvKFmnKg352h3Ww0bdh5lcZDS\nEDR49QqE/FKEw8li8HADVMRizqneLCH5sQUdu09N/1DB4RVEQtxN8N7ZMATwFnH1\nEjrALh8Y257sMGP3R/+7Tq0=\n-----END PRIVATE KEY-----\n",
+  "client_email": "demo-782@valid-climber-394012.iam.gserviceaccount.com",
+  "client_id": "107025891911227400876",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/demo-782%40valid-climber-394012.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+   }'
+
+
 #jwt:
 #  secret_key: "2948404D635166546A576E5A7234753778217A25432A462D4A614E645267556B";
 
