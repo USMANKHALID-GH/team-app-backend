@@ -79,7 +79,7 @@ public class DailyReportController {
     @DeleteMapping("/public/report/{id}")
     public ResponseEntity<BaseResponseDto>  delete(@PathVariable long id){
         service.delete(id);
-        return ResponseEntity.ok(BaseResponseDto.builder().message("Report Basarili bir sekilde silinmistir").build());
+        return ResponseEntity.ok(BaseResponseDto.builder().message("Daily Report Basarili bir sekilde silinmistir").build());
     }
 
 
