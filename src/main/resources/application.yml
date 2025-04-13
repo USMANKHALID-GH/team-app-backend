@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${HOST:0.0.0.0}:${PORT:5433}/ndb
-    username: ${HOST_NAME:usman}
+    url: jdbc:postgresql://${HOST:localhost}:${PORT:5432}/postgres
+    username: ${HOST_NAME:postgres}
     password: ${PASSWORD:123456789}
     driver-class-name: org.postgresql.Driver
   jpa:
